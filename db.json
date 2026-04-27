@@ -4,6 +4,7 @@
       "fullName": "snehul",
       "email": "snehul02vv@gmail.com",
       "password": "snehul123",
+       "wishlist": [],
       "id": "YzOPAaxZ0H4"
     },
     {
@@ -13,5 +14,187 @@
       "id": "LRFOiJUjtro"
     }
   ],
+"products": [
+
+  {
+    "id": 1,
+    "name": "Black Oversized T-Shirt",
+    "price": 999,
+    "category": "T-Shirts",
+    "rating":4.5,
+    "image": "/images/tshirt1.jpg"
+    
+  },
+  {
+    "id": 2,
+    "name": "White Minimal T-Shirt",
+    "price": 899,
+    "category": "T-Shirts",
+    "rating":4.2,
+    "image": "/images/tshirt2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Printed Street T-Shirt",
+    "price": 1099,
+    "category": "T-Shirts",
+    "rating":5,
+    "image": "/images/tshirt3.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Beige Relaxed Fit Tee",
+    "price": 1199,
+    "category": "T-Shirts",
+    "rating":3.5,
+    "image": "/images/tshirt4.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Graphic Black Tee",
+    "price": 1299,
+    "category": "T-Shirts",
+    "rating":4.5,
+    "image": "/images/tshirt5.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Classic Grey T-Shirt",
+    "price": 799,
+    "category": "T-Shirts",
+    "rating":4.8,
+    "image": "/images/tshirt6.jpg"
+  },
+
+
+  {
+    "id": 7,
+    "name": "White Formal Shirt",
+    "price": 1499,
+    "category": "Shirts",
+    "type": "Formal",
+    "rating":4.4,
+    "image": "/images/shirt1.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Blue Slim Fit Formal Shirt",
+    "price": 1599,
+    "category": "Shirts",
+    "type": "Formal",
+    "rating":4.7,
+    "image": "/images/shirt2.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Striped Office Shirt",
+    "price": 1699,
+    "category": "Shirts",
+    "type": "Formal",
+    "rating":5,
+    "image": "/images/shirt3.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Casual Check Shirt",
+    "price": 1399,
+    "category": "Shirts",
+    "type": "Casual",
+    "rating":4.9,
+    "image": "/images/shirt4.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Denim Casual Shirt",
+    "price": 1799,
+    "category": "Shirts",
+    "type": "Casual",
+    "rating":4.6,
+    "image": "/images/shirt5.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Oversized Casual Shirt",
+    "price": 1499,
+    "category": "Shirts",
+    "type": "Casual",
+    "rating":4.2,
+    "image": "/images/shirt6.jpg"
+  },
+
+
+  {
+    "id": 13,
+    "name": "Black Formal Trousers",
+    "price": 1999,
+    "category": "Pants",
+    "type": "Formal",
+    "rating":4.1,
+    "image": "/images/pants1.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Grey Office Pants",
+    "price": 1899,
+    "category": "Pants",
+    "type": "Formal",
+    "rating":4.6,
+    "image": "/images/pants2.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Slim Fit Formal Pants",
+    "price": 2099,
+    "category": "Pants",
+    "type": "Formal",
+    "rating":4.8,
+    "image": "/images/pants3.jpg"
+  },
+  {
+    "id": 16,
+    "name": "Baggy Street Cargo",
+    "price": 2199,
+    "category": "Pants",
+    "type": "Baggy",
+    "rating":4.3,
+    "image": "/images/pants4.jpg"
+  },
+  {
+    "id": 17,
+    "name": "Relaxed Fit Jogger Pants",
+    "price": 1799,
+    "category": "Pants",
+    "type": "Baggy",
+    "rating":4.2,
+    "image": "/images/pants5.jpg"
+  },
+  {
+    "id": 18,
+    "name": "Wide Leg Baggy Pants",
+    "price": 1999,
+    "category": "Pants",
+    "type": "Baggy",
+    "rating":5,
+    "image": "/images/pants6.jpg"
+  },
+    {
+    "id": 19,
+    "name": "Wide Leg Sky-Blue Baggy Pants",
+    "price": 1999,
+    "category": "Pants",
+    "type": "Baggy",
+    "rating":4.2,
+    "image": "/images/pants7.jpg"
+  },
+      {
+    "id": 20,
+    "name": "Wide Leg Blue Baggy Pants",
+    "price": 1999,
+    "category": "Pants",
+    "type": "Baggy",
+    "rating":4.6,
+    "image": "/images/pants8.jpg"
+  }
+],
   "$schema": "./node_modules/json-server/schema.json"
 }
