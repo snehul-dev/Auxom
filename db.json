@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "fullName": "snehul",
+      "email": "snehul02vv@gmail.com",
+      "password": "snehul123",
+      "id": "YzOPAaxZ0H4"
+    },
+    {
+      "fullName": "messi",
+      "email": "messi@gmail.com",
+      "password": "messi@123",
+      "id": "LRFOiJUjtro"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
