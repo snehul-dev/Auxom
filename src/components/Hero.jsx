@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import img1 from "../assets/heroimg_1.png";
 import img2 from "../assets/heroimg_2.png"; 
 import img3 from "../assets/heroImg_3.jpeg"; 
+import { useNavigate } from "react-router-dom";
+import ProductCard from "./ProductCard";
 
 const slides = [
   {
@@ -24,6 +26,7 @@ const slides = [
 ];
 
 function Hero() {
+  const navigate = useNavigate()
   const [current, setCurrent] = useState(0);
 
  
@@ -35,18 +38,15 @@ function Hero() {
   }, []);
 
   return (
-    <div className="relative w-full h-[90vh] overflow-hidden">
+    <div className="relative w-full h-[90vh] overflow-hidden" id="landing" >
 
     
       <img
         src={slides[current].image}
         className="w-full h-full object-cover transition duration-700"
       />
-
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/30"></div>
-
-      {/* TEXT */}
+   
       <div
         className={`absolute inset-0 flex items-center px-16 ${
           slides[current].align === "center"
@@ -65,13 +65,17 @@ function Hero() {
             {slides[current].desc}
           </p>
 
-          <button className="bg-white text-black px-6 py-3">
+          <button onClick={()=>{
+            document.getElementById("products")?.scrollIntoView({
+              behavior:"smooth"
+            })
+          }} className="bg-white text-black px-6 py-3">
             SHOP NOW
           </button>
         </div>
       </div>
 
-      {/* DOTS */}
+    
       <div className="absolute bottom-6 w-full flex justify-center gap-2">
         {slides.map((_, index) => (
           <div

@@ -1,37 +1,76 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 function Navbar() {
+  const user = JSON.parse(localStorage.getItem("user")) || null
+
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-
+  function handleLogout() {
+    localStorage.removeItem("user")
+    navigate("/")
+  }
   return (
-    <div className="bg-black text-white px-6 md:px-10 py-5">
-      
-      <div className="flex justify-between items-center">       
-        
-        <h1 className="text-xl font-bold tracking-widest">
+    <div className="bg-black text-white px-6 md:px-10 py-5 sticky top-0 z-50">
+
+      <div className="flex justify-between items-center">
+
+        <h1 className="text-xl font-bold tracking-widest cursor-pointer">
           AUXOM
         </h1>
 
         <div className="hidden md:flex gap-8 text-sm">
-          <p className="cursor-pointer hover:text-gray-400">MEN</p>
-          <p className="cursor-pointer hover:text-gray-400">COLLECTION</p>
-          <p className="cursor-pointer hover:text-gray-400">TRENDS</p>
+          <p onClick={() => {
+            document.getElementById("landing")?.scrollIntoView({
+              behavior: "smooth"
+            })
+          }} className="cursor-pointer hover:text-gray-400">Home</p>
+          <p onClick={() => {
+            document.getElementById("category")?.scrollIntoView({
+              behavior: "smooth"
+            })
+          }} className="cursor-pointer hover:text-gray-400">MEN</p>
+          <p onClick={() => {
+            document.getElementById("products")?.scrollIntoView({
+              behavior: "smooth"
+            })
+          }} className="cursor-pointer hover:text-gray-400">COLLECTION</p>
+
         </div>
 
-       
-        <div className="flex items-center gap-4">
-          
-        
-          <button
-            onClick={() => navigate("/login")}
-            className="hidden md:block border border-white px-4 py-1 hover:bg-white hover:text-black transition"
-          >
-            LOGIN
-          </button>
 
-        
+        <div className="flex items-center gap-4">
+
+          {user ? (
+            <div className="flex items-center gap-3">
+
+              <div className="w-9 h-9 rounded-full bg-gray-700 flex items-center justify-center text-sm font-semibold">
+                {user?.fullName?.charAt(0).toUpperCase() || "U"}
+              </div>
+
+              <span className="hidden md:block text-sm">
+                Hi, {user.fullName}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="text-sm border px-3 py-1 rounded hover:bg-white hover:text-black transition"
+              >
+                Logout
+              </button>
+
+            </div>
+          ) : (
+            <button
+              onClick={() => navigate("/login")}
+              className="border px-4 py-1 rounded hover:bg-white hover:text-black transition"
+            >
+              Login
+            </button>
+          )}
+
+
           <button
             className="md:hidden text-2xl"
             onClick={() => setOpen(!open)}
@@ -41,19 +80,40 @@ function Navbar() {
         </div>
       </div>
 
-     
+
       {open && (
         <div className="flex flex-col gap-4 mt-6 md:hidden text-sm">
-          <p className="cursor-pointer hover:text-gray-400">MEN</p>
-          <p className="cursor-pointer hover:text-gray-400">COLLECTION</p>
-          <p className="cursor-pointer hover:text-gray-400">TRENDS</p>
+          <p onClick={() => {
+            document.getElementById("landing")?.scrollIntoView({
+              behavior: "smooth"
+            })
+          }} className="cursor-pointer hover:text-gray-400">MEN</p>
+          <p onClick={() => {
+            document.getElementById("category")?.scrollIntoView({
+              behavior: "smooth"
+            })
+          }} className="cursor-pointer hover:text-gray-400">COLLECTION</p>
+          <p onClick={() => {
+            document.getElementById("Allproducts")?.scrollIntoView({
+              behavior: "smooth"
+            })
+          }} className="cursor-pointer hover:text-gray-400">TRENDS</p>
 
-          <button
-            onClick={() => navigate("/login")}
-            className="border border-white px-4 py-2 w-fit hover:bg-white hover:text-black transition"
-          >
-            LOGIN
-          </button>
+          {user ? (
+            <>
+              <span>{user?.fullName ? user.fullName.slice(0, 1).toUpperCase() + user.fullName.slice(1) : "User"}</span>
+              <button onClick={handleLogout}>LOGOUT</button>
+            </>
+          ) : (
+            <button
+              onClick={() => navigate("/login")}
+              className="border border-white px-4 py-2 w-fit hover:bg-white hover:text-black transition"
+            >
+
+            </button>
+          )}
+
+
         </div>
       )}
     </div>
