@@ -23,9 +23,7 @@ function Navbar() {
 
         <div className="hidden md:flex gap-8 text-sm">
           <p onClick={() => {
-            document.getElementById("landing")?.scrollIntoView({
-              behavior: "smooth"
-            })
+            navigate("/")
           }} className="cursor-pointer hover:text-gray-400">Home</p>
           <p onClick={() => {
             document.getElementById("category")?.scrollIntoView({
@@ -33,20 +31,18 @@ function Navbar() {
             })
           }} className="cursor-pointer hover:text-gray-400">MEN</p>
           <p onClick={() => {
-            document.getElementById("products")?.scrollIntoView({
-              behavior: "smooth"
-            })
+            navigate("/products")
           }} className="cursor-pointer hover:text-gray-400">COLLECTION</p>
 
         </div>
 
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ">
 
           {user ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3  ">
 
-              <div className="w-9 h-9 rounded-full bg-gray-700 flex items-center justify-center text-sm font-semibold">
+              <div className="w-9 h-9 rounded-full bg-gray-700 flex items-center justify-center text-sm font-semibold ">
                 {user?.fullName?.charAt(0).toUpperCase() || "U"}
               </div>
 
@@ -55,7 +51,7 @@ function Navbar() {
               </span>
               <button
                 onClick={handleLogout}
-                className="text-sm border px-3 py-1 rounded hover:bg-white hover:text-black transition"
+                className="text-sm border px-3 py-1 rounded hover:bg-white hover:text-black transition hidden md:flex"
               >
                 Logout
               </button>
@@ -64,12 +60,11 @@ function Navbar() {
           ) : (
             <button
               onClick={() => navigate("/login")}
-              className="border px-4 py-1 rounded hover:bg-white hover:text-black transition"
+              className="border px-4 py-1 rounded hover:bg-white hover:text-black transition hidden md:flex"
             >
               Login
             </button>
           )}
-
 
           <button
             className="md:hidden text-2xl"
@@ -84,14 +79,10 @@ function Navbar() {
       {open && (
         <div className="flex flex-col gap-4 mt-6 md:hidden text-sm">
           <p onClick={() => {
-            document.getElementById("landing")?.scrollIntoView({
-              behavior: "smooth"
-            })
+            navigate("/products")
           }} className="cursor-pointer hover:text-gray-400">MEN</p>
           <p onClick={() => {
-            document.getElementById("category")?.scrollIntoView({
-              behavior: "smooth"
-            })
+            navigate("/products")
           }} className="cursor-pointer hover:text-gray-400">COLLECTION</p>
           <p onClick={() => {
             document.getElementById("Allproducts")?.scrollIntoView({
@@ -100,17 +91,25 @@ function Navbar() {
           }} className="cursor-pointer hover:text-gray-400">TRENDS</p>
 
           {user ? (
-            <>
-              <span>{user?.fullName ? user.fullName.slice(0, 1).toUpperCase() + user.fullName.slice(1) : "User"}</span>
-              <button onClick={handleLogout}>LOGOUT</button>
-            </>
+            <div className="text-end">
+
+              <button
+                onClick={handleLogout}
+                className="text-sm px-3 py-1 border border-white hover:bg-white hover:text-black transition"
+              >
+                LOGOUT
+              </button>
+
+            </div>
           ) : (
+            <div className="flex justify-end">
             <button
               onClick={() => navigate("/login")}
               className="border border-white px-4 py-2 w-fit hover:bg-white hover:text-black transition"
             >
-
+              LOGIN
             </button>
+            </div>
           )}
 
 

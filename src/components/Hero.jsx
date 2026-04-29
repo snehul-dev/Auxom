@@ -66,9 +66,7 @@ function Hero() {
           </p>
 
           <button onClick={()=>{
-            document.getElementById("products")?.scrollIntoView({
-              behavior:"smooth"
-            })
+             navigate("/products")
           }} className="bg-white text-black px-6 py-3">
             SHOP NOW
           </button>

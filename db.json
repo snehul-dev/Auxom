@@ -5,6 +5,7 @@
       "email": "snehul02vv@gmail.com",
       "password": "snehul123",
       "wishlist": [],
+      "cart":[],
       "id": "YzOPAaxZ0H4"
     },
     {
@@ -30,6 +31,7 @@
       "rating": 4.5,
       "color": "Black",
       "image": "/images/tshirt1.jpg",
+      "InStock":true,
       "description": [
         "Color: Black",
         "Fit: Oversized Fit",
@@ -45,6 +47,7 @@
       "rating": 4.2,
       "color": "White",
       "image": "/images/tshirt2.jpg",
+      "InStock":true,
       "description": [
         "Color: White",
         "Fit: Regular Fit",
@@ -60,6 +63,7 @@
       "rating": 4.5,
       "color": "Faded Grey",
       "image": "/images/tshirt3.jpg",
+      "InStock":true,
       "description": [
         "Color: Faded Grey",
         "Fit: Relaxed Fit",
@@ -75,6 +79,7 @@
       "rating": 4.2,
       "color": "Beige",
       "image": "/images/tshirt4.jpg",
+      "InStock":true,
       "description": [
         "Color: Beige",
         "Fit: Relaxed Fit",
@@ -90,6 +95,7 @@
       "rating": 4.5,
       "color": "Printed Black",
       "image": "/images/tshirt5.jpg",
+      "InStock":true,
       "description": [
         "Color: Black (Printed)",
         "Fit: Relaxed Fit",
@@ -105,6 +111,7 @@
       "rating": 4.8,
       "color": "Grey",
       "image": "/images/tshirt6.jpg",
+      "InStock":true,
       "description": [
         "Color: Grey",
         "Fit: Regular Fit",
@@ -121,6 +128,7 @@
       "rating": 4.4,
       "color": "White",
       "image": "/images/shirt1.jpg",
+      "InStock":true,
       "description": [
         "Color: White",
         "Fit: Slim Fit",
@@ -137,6 +145,7 @@
       "rating": 4.7,
       "color": "Blue",
       "image": "/images/shirt2.jpg",
+      "InStock":false,
       "description": [
         "Color: Blue",
         "Fit: Slim Fit",
@@ -153,6 +162,7 @@
       "rating": 4.3,
       "color": "Blue & White",
       "image": "/images/shirt3.jpg",
+      "InStock":true,
       "description": [
         "Color: Blue & White Stripes",
         "Fit: Slim Fit",
@@ -168,6 +178,7 @@
       "type": "Casual",
       "rating": 4.9,
       "color": "Blue",
+      "InStock":false,
       "image": "/images/shirt4.jpg",
       "description": [
         "Color: Blue Check",
@@ -185,6 +196,7 @@
       "rating": 4.6,
       "color": "Dark Blue",
       "image": "/images/shirt5.jpg",
+      "InStock":true,
       "description": [
         "Color: Dark Blue",
         "Fit: Regular Fit",
@@ -201,6 +213,7 @@
       "rating": 4.2,
       "color": "Olive Green",
       "image": "/images/shirt6.jpg",
+      "InStock":true,
       "description": [
         "Color: Olive Green",
         "Fit: Oversized Fit",
@@ -217,6 +230,7 @@
       "rating": 4.1,
       "color": "Black",
       "image": "/images/pants1.jpg",
+      "InStock":true,
       "description": [
         "Color: Black",
         "Fit: Slim Fit",
@@ -233,6 +247,7 @@
       "rating": 4.6,
       "color": "Grey",
       "image": "/images/pants2.jpg",
+      "InStock":true,
       "description": [
         "Color: Grey",
         "Fit: Regular Fit",
@@ -249,6 +264,7 @@
       "rating": 4.8,
       "color": "Deep Olive Green",
       "image": "/images/pants3.jpg",
+      "InStock":true,
       "description": [
         "Color: Deep Olive Green",
         "Fit: Slim Fit",
@@ -265,6 +281,7 @@
       "rating": 4.3,
       "color": "Light Olive Green",
       "image": "/images/pants4.jpg",
+      "InStock":false,
       "description": [
         "Color: Light Olive Green",
         "Fit: Baggy Fit",
@@ -281,6 +298,7 @@
       "rating": 4.2,
       "color": "Charcoal Grey",
       "image": "/images/pants5.jpg",
+      "InStock":true,
       "description": [
         "Color: Charcoal Grey",
         "Fit: Relaxed Fit",
@@ -297,6 +315,7 @@
       "rating": 5,
       "color": "Black",
       "image": "/images/pants6.jpg",
+      "InStock":true,
       "description": [
         "Color: Black",
         "Fit: Wide Leg",
@@ -312,6 +331,7 @@
       "type": "Baggy",
       "rating": 4.2,
       "color": "Sky Blue",
+      "InStock":true,
       "image": "/images/pants7.jpg",
       "description": [
         "Color: Sky Blue",
@@ -328,6 +348,7 @@
       "type": "Baggy",
       "rating": 4.6,
       "color": "Blue",
+      "InStock":true,
       "image": "/images/pants8.jpg",
       "description": [
         "Color: Blue",
