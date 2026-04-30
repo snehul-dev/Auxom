@@ -2,65 +2,64 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../services/productService";
 import ProductCard from "../components/ProductCard";
 import { useSearchParams } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
+import { useState } from "react";
 
 function Products() {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category") || "all";
+  const [sorted,setSorted] = useState("")
 
-  const { data, isLoading, isError } = useQuery({
+  const { data = [], isLoading, isError } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
 
-  if (isLoading)
-    return (
-      <h1 className="text-center mt-20 text-lg text-gray-600">
-        Loading...
-      </h1>
-    );
-
-  if (isError)
-    return (
-      <h1 className="text-center mt-20 text-lg text-red-500">
-        Error loading products
-      </h1>
-    );
+  if (isLoading) return <h1>Loading...</h1>;
+  if (isError) return <h1>Error</h1>;
 
   const filtered =
     category === "all"
       ? data
       : data.filter(
-        (item) =>
-          item.category.toLowerCase() === category.toLowerCase()
-      );
+          (item) =>
+            item.category.toLowerCase() === category.toLowerCase()
+        );
+        let sortedProducts = [...filtered]
+     if(sorted == "byPriceInc"){
+      sortedProducts.sort((a,b)=>a.price - b.price)
+     }
+        
+     if(sorted ==="byPriceDec"){
+      sortedProducts.sort((a,b)=>b.price-a.price)
+     }
+     if(sorted ==="rating"){
+      sortedProducts.sort((a,b)=>a.rating-b.rating)
+     }
 
   return (
     <>
       <Navbar />
-      <div className="px-6 md:px-12 py-10 min-h-screen bg-gray-50">
-
-        <div className="mb-10 flex items-center justify-center">
-          <h1 className="text-3xl md:text-4xl font-semibold tracking-wide text-gray-900  ">
-            {category === "all" ? "All Products" : category}
-          </h1>
+      <div className="px-6 py-10">
+        <div className="flex justify-end mb-4">
+          <select className="appearance-none bg-white border border-gray-300 text-sm px-4 py-2 pr-10 rounded-lg shadow-sm 
+                 focus:outline-none focus:ring-2 focus:ring-black cursor-pointer transition" 
+                 onClick={(e)=>setSorted(e.target.value)}  >
+            <option value="">Sort By</option>
+            <option value="byPriceInc">Price: Low → High</option>
+            <option value="byPriceDec">Price: Low → High</option>
+            <option value="rating">Rating</option>
+          </select>
         </div>
-        <p className="text-sm text-gray-500 mb-5 text-end">
-          {filtered.length} items
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+        <h1 className="text-center text-3xl mb-8">
+          {category === "all" ? "All Products" : category}
+        </h1>
 
-          {filtered.map((item) => (
-            <div
-              key={item.id}
-              className="transform transition duration-300 ease-in-out hover:-translate-y-2"
-            >
-              <ProductCard item={item} />
-            </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {sortedProducts.map((item) => (
+            <ProductCard key={item.id} item={item} />
           ))}
-
         </div>
-
       </div>
     </>
   );

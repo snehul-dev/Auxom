@@ -25,10 +25,10 @@ function ProductCard({ item }) {
 
         </div>
 
-        <button onClick={(e)=>e.stopPropagation()} className="mt-3 w-full bg-black text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-900 transition duration-300 shadow-md hover:shadow-lg">
+      {item.InStock &&   <button onClick={(e)=>e.stopPropagation} className="mt-3 w-full bg-black text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-900 transition duration-300 shadow-md hover:shadow-lg">
           <span>Add</span>
           <span className="text-lg">🛒</span>
-        </button>
+        </button>}
 
       </div>
     </div>

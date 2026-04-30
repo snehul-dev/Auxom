@@ -1,34 +1,44 @@
 import React, { useState } from 'react'
 import authBackground from "../assets/authBackground.jpeg"
 import { useMutation } from '@tanstack/react-query'
-import {loginUser} from "../services/userService"
+import { loginUser } from "../services/userService"
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux"
+import { login } from "../redux/slices/authSlice"
 
 function Login() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const [error, setError] = useState({})
   const [input, setInput] = useState({
     email: "",
     password: ""
   })
+
   const mutation = useMutation({
     mutationFn: loginUser,
+
     onSuccess: (data) => {
       if (data.length > 0) {
-        localStorage.setItem("user", JSON.stringify(data[0]))
+        dispatch(login(data[0]))
+
         toast.success("Login successfully")
         navigate("/")
       } else {
         toast.error("Invalid credentials")
       }
     },
+
     onError: () => {
       toast.error("Login Failed")
     }
   })
+
   function handleSubmit(e) {
     e.preventDefault()
+
     const validateErrors = validate()
     if (Object.keys(validateErrors).length > 0) {
       setError(validateErrors)
@@ -40,29 +50,32 @@ function Login() {
       password: input.password
     })
   }
+
   const validate = () => {
     const err = {}
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
     if (!input.email) {
       err.email = "Email required"
     } else if (!emailRegex.test(input.email)) {
-      err.email = "Invalid email formate"
+      err.email = "Invalid email format"
     }
 
     if (!input.password) {
-      err.password = "password required"
-
+      err.password = "Password required"
     }
+
     return err
   }
+
   function handleInput(e) {
     const { value, name } = e.target
     setInput((prev) => ({
       ...prev,
       [name]: value
-
     }))
   }
+
   return (
     <div
       className="min-h-screen bg-cover bg-center flex items-center justify-center"
@@ -99,17 +112,18 @@ function Login() {
           className="w-full mb-2 px-4 py-3 rounded-full bg-white/20 placeholder-white border border-white/30 backdrop-blur-md focus:outline-none"
         />
         <p className="text-red-300 text-sm mb-3">{error.password}</p>
+
         <button
           type="submit"
           disabled={mutation.isPending}
-          className={`w-full py-3 rounded-full transition ${mutation.isPending
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-[#4fd1c5] hover:opacity-90"
-            }`}
+          className={`w-full py-3 rounded-full transition ${
+            mutation.isPending
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#4fd1c5] hover:opacity-90"
+          }`}
         >
           {mutation.isPending ? "Logging in..." : "Login"}
         </button>
-
 
         <p className="text-sm mt-4 text-gray-300">
           Don’t have an account?{" "}

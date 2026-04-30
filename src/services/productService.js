@@ -1,11 +1,11 @@
-import axios from "axios";
+import API from "./api";
 
-const API =axios.create({
-    baseURL : "http://localhost:3001/"
-})
+export const getProducts = async () => {
+  const res = await API.get("/products");
+  return res.data;
+};
 
-const getProducts = async ()=>{
-  let res = await API.get("/products")
-  return res.data
-}
-export {getProducts}
+export const getSingleProduct = async (id) => {
+  const res = await API.get(`/products/${id}`);
+  return res.data;
+};
