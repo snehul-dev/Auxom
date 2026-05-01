@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
+import Wishlist from "./whishlist";
+import userPage from "./UserPage";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
@@ -70,19 +72,16 @@ function Navbar() {
               </span>
             )}
           </div>
+          <p onClick={()=>navigate("/wishlist")}>wishlist</p>
 
           {user ? (
             <div className="flex items-center gap-3">
 
               {/* Avatar */}
-              <div className="w-9 h-9 rounded-full bg-gray-700 flex items-center justify-center text-sm font-semibold">
+              <div onClick={()=>navigate("/userpage")} className="w-9 h-9 rounded-full bg-gray-700 flex items-center justify-center text-sm font-semibold">
                 {user?.fullName?.charAt(0).toUpperCase() || "U"}
               </div>
 
-              {/* Name */}
-              <span className="hidden md:block text-sm">
-                Hi, {user.fullName}
-              </span>
 
               {/* Logout */}
               <button
