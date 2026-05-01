@@ -5,7 +5,15 @@
       "email": "snehul02vv@gmail.com",
       "password": "snehul123",
       "wishlist": [],
-      "cart":[],
+      "cart": [
+        {
+          "productId": "2",
+          "name": "White Minimal T-Shirt",
+          "price": 899,
+          "image": "/images/tshirt2.jpg",
+          "qty": 3
+        }
+      ],
       "id": "YzOPAaxZ0H4"
     },
     {
@@ -19,19 +27,40 @@
       "email": "boopathi@gmail.com",
       "password": "boopathi",
       "id": "GnRNTFeeBOU"
+    },
+    {
+      "fullName": "Nived",
+      "email": "nived@gmail.com",
+      "password": "nived@123",
+      "id": "Y12DOWVddx0",
+      "cart": [
+        {
+          "productId": "12",
+          "name": "Oversized Casual Shirt",
+          "price": 1499,
+          "image": "/images/shirt6.jpg",
+          "qty": 2
+        },
+        {
+          "productId": "7",
+          "name": "White Formal Shirt",
+          "price": 1499,
+          "image": "/images/shirt1.jpg",
+          "qty": 4
+        }
+      ]
     }
   ],
-  
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Black Oversized T-Shirt",
       "price": 999,
       "category": "T-Shirts",
       "rating": 4.5,
       "color": "Black",
       "image": "/images/tshirt1.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Black",
         "Fit: Oversized Fit",
@@ -40,14 +69,14 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "White Minimal T-Shirt",
       "price": 899,
       "category": "T-Shirts",
       "rating": 4.2,
       "color": "White",
       "image": "/images/tshirt2.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: White",
         "Fit: Regular Fit",
@@ -56,14 +85,14 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Printed Street T-Shirt",
       "price": 1099,
       "category": "T-Shirts",
       "rating": 4.5,
       "color": "Faded Grey",
       "image": "/images/tshirt3.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Faded Grey",
         "Fit: Relaxed Fit",
@@ -72,14 +101,14 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Beige Relaxed Fit Tee",
       "price": 1199,
       "category": "T-Shirts",
       "rating": 4.2,
       "color": "Beige",
       "image": "/images/tshirt4.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Beige",
         "Fit: Relaxed Fit",
@@ -88,14 +117,14 @@
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Graphic Black Tee",
       "price": 1299,
       "category": "T-Shirts",
       "rating": 4.5,
       "color": "Printed Black",
       "image": "/images/tshirt5.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Black (Printed)",
         "Fit: Relaxed Fit",
@@ -104,14 +133,14 @@
       ]
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Classic Grey T-Shirt",
       "price": 799,
       "category": "T-Shirts",
       "rating": 4.8,
       "color": "Grey",
       "image": "/images/tshirt6.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Grey",
         "Fit: Regular Fit",
@@ -120,7 +149,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "White Formal Shirt",
       "price": 1499,
       "category": "Shirts",
@@ -128,7 +157,7 @@
       "rating": 4.4,
       "color": "White",
       "image": "/images/shirt1.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: White",
         "Fit: Slim Fit",
@@ -137,7 +166,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Blue Slim Fit Formal Shirt",
       "price": 1599,
       "category": "Shirts",
@@ -145,7 +174,7 @@
       "rating": 4.7,
       "color": "Blue",
       "image": "/images/shirt2.jpg",
-      "InStock":false,
+      "InStock": false,
       "description": [
         "Color: Blue",
         "Fit: Slim Fit",
@@ -154,7 +183,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Striped Office Shirt",
       "price": 1699,
       "category": "Shirts",
@@ -162,7 +191,7 @@
       "rating": 4.3,
       "color": "Blue & White",
       "image": "/images/shirt3.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Blue & White Stripes",
         "Fit: Slim Fit",
@@ -171,14 +200,14 @@
       ]
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Casual Check Shirt",
       "price": 1399,
       "category": "Shirts",
       "type": "Casual",
       "rating": 4.9,
       "color": "Blue",
-      "InStock":false,
+      "InStock": false,
       "image": "/images/shirt4.jpg",
       "description": [
         "Color: Blue Check",
@@ -188,7 +217,7 @@
       ]
     },
     {
-      "id": 11,
+      "id": "11",
       "name": "Denim Casual Shirt",
       "price": 1799,
       "category": "Shirts",
@@ -196,7 +225,7 @@
       "rating": 4.6,
       "color": "Dark Blue",
       "image": "/images/shirt5.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Dark Blue",
         "Fit: Regular Fit",
@@ -205,7 +234,7 @@
       ]
     },
     {
-      "id": 12,
+      "id": "12",
       "name": "Oversized Casual Shirt",
       "price": 1499,
       "category": "Shirts",
@@ -213,7 +242,7 @@
       "rating": 4.2,
       "color": "Olive Green",
       "image": "/images/shirt6.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Olive Green",
         "Fit: Oversized Fit",
@@ -222,7 +251,7 @@
       ]
     },
     {
-      "id": 13,
+      "id": "13",
       "name": "Black Formal Trousers",
       "price": 1999,
       "category": "Pants",
@@ -230,7 +259,7 @@
       "rating": 4.1,
       "color": "Black",
       "image": "/images/pants1.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Black",
         "Fit: Slim Fit",
@@ -239,7 +268,7 @@
       ]
     },
     {
-      "id": 14,
+      "id": "14",
       "name": "Grey Office Pants",
       "price": 1899,
       "category": "Pants",
@@ -247,7 +276,7 @@
       "rating": 4.6,
       "color": "Grey",
       "image": "/images/pants2.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Grey",
         "Fit: Regular Fit",
@@ -256,7 +285,7 @@
       ]
     },
     {
-      "id": 15,
+      "id": "15",
       "name": "Slim Fit Formal Pants",
       "price": 2099,
       "category": "Pants",
@@ -264,7 +293,7 @@
       "rating": 4.8,
       "color": "Deep Olive Green",
       "image": "/images/pants3.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Deep Olive Green",
         "Fit: Slim Fit",
@@ -273,7 +302,7 @@
       ]
     },
     {
-      "id": 16,
+      "id": "16",
       "name": "Baggy Street Cargo",
       "price": 2199,
       "category": "Pants",
@@ -281,7 +310,7 @@
       "rating": 4.3,
       "color": "Light Olive Green",
       "image": "/images/pants4.jpg",
-      "InStock":false,
+      "InStock": false,
       "description": [
         "Color: Light Olive Green",
         "Fit: Baggy Fit",
@@ -290,7 +319,7 @@
       ]
     },
     {
-      "id": 17,
+      "id": "17",
       "name": "Relaxed Fit Jogger Pants",
       "price": 1799,
       "category": "Pants",
@@ -298,7 +327,7 @@
       "rating": 4.2,
       "color": "Charcoal Grey",
       "image": "/images/pants5.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Charcoal Grey",
         "Fit: Relaxed Fit",
@@ -307,7 +336,7 @@
       ]
     },
     {
-      "id": 18,
+      "id": "18",
       "name": "Wide Leg Baggy Pants",
       "price": 1999,
       "category": "Pants",
@@ -315,7 +344,7 @@
       "rating": 5,
       "color": "Black",
       "image": "/images/pants6.jpg",
-      "InStock":true,
+      "InStock": true,
       "description": [
         "Color: Black",
         "Fit: Wide Leg",
@@ -324,14 +353,14 @@
       ]
     },
     {
-      "id": 19,
+      "id": "19",
       "name": "Wide Leg Sky-Blue Baggy Pants",
       "price": 1999,
       "category": "Pants",
       "type": "Baggy",
       "rating": 4.2,
       "color": "Sky Blue",
-      "InStock":true,
+      "InStock": true,
       "image": "/images/pants7.jpg",
       "description": [
         "Color: Sky Blue",
@@ -341,14 +370,14 @@
       ]
     },
     {
-      "id": 20,
+      "id": "20",
       "name": "Wide Leg Blue Baggy Pants",
       "price": 1999,
       "category": "Pants",
       "type": "Baggy",
       "rating": 4.6,
       "color": "Blue",
-      "InStock":true,
+      "InStock": true,
       "image": "/images/pants8.jpg",
       "description": [
         "Color: Blue",
@@ -358,6 +387,5 @@
       ]
     }
   ],
-
   "$schema": "./node_modules/json-server/schema.json"
 }

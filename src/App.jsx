@@ -6,6 +6,7 @@ import Products from "./components/Products";
 import ProductDisplay from "./components/ProductDisplay";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -13,22 +14,15 @@ function App() {
       <Toaster />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDisplay />} />
+        <Route path="/cart" element={<ProtectedRoute><Cart/></ProtectedRoute>}/>
       </Routes>
     </>
   );
 }
 
-export default App;
+export default App; 
