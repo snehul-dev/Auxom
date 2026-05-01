@@ -4,8 +4,11 @@ import { useParams } from 'react-router-dom'
 import { getProducts } from "../services/productService"
 import { useState } from 'react'
 import Navbar from './Navbar'
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slices/cartSlice";
 
 function ProductDisplay() {
+    const dispatch = useDispatch();
     const [selectedSize, setSelectedSize] = useState(null)
     const [liked, setLiked] = useState(false)
     const { id } = useParams()
@@ -40,8 +43,8 @@ function ProductDisplay() {
                     >
                         <span
                             className={`text-xl inline-block transition-all duration-300 ${liked
-                                    ? "text-red-500 scale-110"
-                                    : "text-gray-400 scale-95"
+                                ? "text-red-500 scale-110"
+                                : "text-gray-400 scale-95"
                                 }`}
                         >
                             {liked ? "❤️" : "🤍"}
@@ -57,9 +60,9 @@ function ProductDisplay() {
                         <p className="text-2xl font-bold text-black">
                             ₹{product.price}
                         </p>
-                        {product.InStock?
-                        <p className='text-green-600 font-medium'>In Stock</p>:
-                        <p className='text-red-600 font-medium'>Out Of Stock</p>
+                        {product.InStock ?
+                            <p className='text-green-600 font-medium'>In Stock</p> :
+                            <p className='text-red-600 font-medium'>Out Of Stock</p>
                         }
 
                         <div className="text-yellow-500 text-lg">
@@ -70,13 +73,13 @@ function ProductDisplay() {
                         <p className="text-sm text-gray-600">
                             {product.color}
                         </p>
- 
-                        { <ul className="list-disc pl-5">
+
+                        {<ul className="list-disc pl-5">
                             {product.description.map((item, i) => (
                                 <li key={i}>{item}</li>
                             ))}
-                        </ul> }  
-                       
+                        </ul>}
+
 
                         <div>
                             <p className="font-medium mb-3">Select Size</p>
@@ -101,16 +104,19 @@ function ProductDisplay() {
 
                         <div className="flex flex-col gap-3 mt-4">
                             {product.InStock == true &&
-                            <div className='flex gap-5'>
-                            
-                            <button className="w-full bg-black text-white py-3 rounded-full hover:bg-gray-900 active:scale-95 transition">
-                                Add to Cart
-                            </button>
+                                <div className='flex gap-5'>
 
-                            <button className="w-full border border-black py-3 rounded-full hover:bg-black hover:text-white active:scale-95 transition">
-                                Buy Now
-                            </button>
-                            </div>}
+                                    <button
+                                        onClick={() => dispatch(addToCart(product))}
+                                        className="w-full bg-black text-white py-3 rounded-full"
+                                    >
+                                        Add to Cart
+                                    </button>
+
+                                    <button className="w-full border border-black py-3 rounded-full hover:bg-black hover:text-white active:scale-95 transition">
+                                        Buy Now
+                                    </button>
+                                </div>}
 
 
 

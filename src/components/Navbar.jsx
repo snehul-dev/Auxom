@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 
 function Navbar() {
-  const user = useSelector((state) => state.auth.user); 
+  const user = useSelector((state) => state.auth.user);
+  const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -56,6 +57,19 @@ function Navbar() {
 
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-4">
+
+          <div
+            className="relative cursor-pointer"
+            onClick={() => navigate("/cart")}
+          >
+            🛒
+
+            {cartItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 rounded-full">
+                {cartItems.length}
+              </span>
+            )}
+          </div>
 
           {user ? (
             <div className="flex items-center gap-3">

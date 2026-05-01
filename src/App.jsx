@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Products from "./components/Products";
 import ProductDisplay from "./components/ProductDisplay";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Cart from "./pages/Cart";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDisplay />} />
+        <Route path="/cart" element={<Cart/>}/>
       </Routes>
     </>
   );

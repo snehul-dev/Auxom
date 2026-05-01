@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slices/cartSlice";
 
 function ProductCard({ item }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
 
@@ -25,10 +28,15 @@ function ProductCard({ item }) {
 
         </div>
 
-      {item.InStock &&   <button onClick={(e)=>e.stopPropagation} className="mt-3 w-full bg-black text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-900 transition duration-300 shadow-md hover:shadow-lg">
-          <span>Add</span>
-          <span className="text-lg">🛒</span>
-        </button>}
+        {item.InStock ? <button
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(addToCart(item));
+          }}
+          className="mt-3 w-full bg-black text-white py-2 rounded-lg"
+        >
+          Add 🛒
+        </button> :<button className="mt-3 w-full bg-white text-red py-2 rounded-lg">Out Of Stock</button>}
 
       </div>
     </div>
