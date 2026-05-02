@@ -6,6 +6,8 @@ import {
   removeFromCart,
 } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
+import Backbutton from "../components/Backbutton";
 
 function Cart() {
   const cartItems = useSelector((state) => state.cart.items);
@@ -20,7 +22,7 @@ function Cart() {
   return (
     <>
       <Navbar />
-
+      <Backbutton/>
       <div className="bg-gray-50 min-h-screen py-10 px-4">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 text-gray-800">
@@ -119,6 +121,7 @@ function Cart() {
           )}
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

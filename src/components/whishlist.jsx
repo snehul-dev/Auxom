@@ -2,6 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../components/Navbar";
 import { removeFromWishlist } from "../redux/slices/whishlistSlice";
 import { addToCart } from "../redux/slices/cartSlice";
+import Footer from "./Footer";
+import Backbutton from "./Backbutton";
 
 function Wishlist() {
   const wishlistItems = useSelector(
@@ -13,6 +15,7 @@ function Wishlist() {
   return (
     <>
       <Navbar />
+      <Backbutton/>
 
       <div className="bg-gray-50 min-h-screen py-10 px-4">
         <div className="max-w-5xl mx-auto">
@@ -81,6 +84,7 @@ function Wishlist() {
           )}
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -6,12 +6,13 @@ import { logout } from "../redux/slices/authSlice";
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
   const cartItems = useSelector((state) => state.cart.items);
+  const wishItems = useSelector((state) => state.wishlist.items)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [open, setOpen] = useState(false);
-  const [showUser, setShowUser] = useState(false); // ✅ user dropdown
+  const [showUser, setShowUser] = useState(false);
 
   function handleLogout() {
     dispatch(logout());
@@ -24,8 +25,6 @@ function Navbar() {
     <div className="bg-black text-white px-6 md:px-10 py-5 sticky top-0 z-50">
 
       <div className="flex justify-between items-center">
-
-        {/* LOGO */}
         <h1
           className="text-xl font-bold tracking-widest cursor-pointer"
           onClick={() => navigate("/")}
@@ -33,40 +32,34 @@ function Navbar() {
           AUXOM
         </h1>
 
-        {/* DESKTOP MENU */}
         <div className="hidden md:flex gap-8 text-sm">
           <p
             onClick={() => navigate("/")}
-            className={`cursor-pointer ${
-              isActive("/") ? "text-cyan-400" : "hover:text-gray-400"
-            }`}
+            className={`cursor-pointer ${isActive("/") ? "text-cyan-400" : "hover:text-gray-400"
+              }`}
           >
             Home
           </p>
 
           <p
             onClick={() => navigate("/orders")}
-            className={`cursor-pointer ${
-              isActive("/orders") ? "text-cyan-400" : "hover:text-gray-400"
-            }`}
+            className={`cursor-pointer ${isActive("/orders") ? "text-cyan-400" : "hover:text-gray-400"
+              }`}
           >
             ORDERS
           </p>
 
           <p
             onClick={() => navigate("/products")}
-            className={`cursor-pointer ${
-              isActive("/products") ? "text-cyan-400" : "hover:text-gray-400"
-            }`}
+            className={`cursor-pointer ${isActive("/products") ? "text-cyan-400" : "hover:text-gray-400"
+              }`}
           >
             COLLECTION
           </p>
         </div>
 
-        {/* RIGHT SIDE */}
         <div className="flex items-center gap-4">
 
-          {/* CART */}
           <div
             className="relative cursor-pointer"
             onClick={() => navigate("/cart")}
@@ -79,22 +72,24 @@ function Navbar() {
             )}
           </div>
 
-          {/* WISHLIST */}
-          <p
+          <div
             onClick={() => navigate("/wishlist")}
-            className={`cursor-pointer ${
-              isActive("/wishlist")
+            className={`relative cursor-pointer ${isActive("/wishlist")
                 ? "text-cyan-400"
                 : "hover:text-gray-400"
-            }`}
+              }`}
           >
             Wishlist
-          </p>
 
-          {/* USER */}
+            {wishItems.length > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-xs px-2 rounded-full">
+                {wishItems.length}
+              </span>
+            )}
+          </div>
+
           {user ? (
             <div className="relative">
-              {/* Avatar */}
               <div
                 onClick={() => setShowUser(!showUser)}
                 className="w-9 h-9 rounded-full bg-gray-700 flex items-center justify-center text-sm font-semibold cursor-pointer"
@@ -102,7 +97,6 @@ function Navbar() {
                 {user?.fullName?.charAt(0).toUpperCase() || "U"}
               </div>
 
-              {/* DROPDOWN */}
               {showUser && (
                 <div className="absolute top-12 right-0 bg-white text-black rounded-lg shadow-lg p-4 w-48 z-50">
                   <p className="font-semibold mb-2">
@@ -147,7 +141,6 @@ function Navbar() {
             </button>
           )}
 
-          {/* MOBILE MENU BUTTON */}
           <button
             className="md:hidden text-2xl"
             onClick={() => setOpen(!open)}
@@ -157,7 +150,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE MENU */}
       {open && (
         <div className="flex flex-col gap-4 mt-6 md:hidden text-sm">
 
@@ -177,13 +169,11 @@ function Navbar() {
 
           <p
             onClick={() =>
-              document
-                .getElementById("Allproducts")
-                ?.scrollIntoView({ behavior: "smooth" })
+              navigate("/orders")
             }
             className="cursor-pointer hover:text-gray-400"
           >
-            TRENDS
+            ORDERS
           </p>
 
           {user ? (

@@ -35,12 +35,10 @@ function Hero() {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   return (
-    <div className="relative w-full h-[90vh] overflow-hidden" id="landing" >
-
-    
+    <div className="relative w-full h-[90vh] overflow-hidden"  >
       <img
         src={slides[current].image}
         className="w-full h-full object-cover transition duration-700"

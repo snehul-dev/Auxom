@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 import { toggleWishlist } from "../redux/slices/whishlistSlice"
+import Footer from "./Footer";
 
 
 function ProductDisplay() {
@@ -44,6 +45,22 @@ function ProductDisplay() {
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>Error loading product</h1>;
   if (!product) return <h1>Product Not Found</h1>;
+
+const handleCart = () =>{
+  if(!user){
+    navigate('/login')
+  }else{
+    dispatch(addToCart(product))
+  }
+}
+const handleBuy = () => {
+  if(!user){
+    navigate("/login")
+  }else{
+    navigate("/payment")
+  }
+}
+                    
 
   return (
     <>
@@ -134,15 +151,13 @@ function ProductDisplay() {
             {product.InStock && (
               <div className="flex gap-4 mt-4">
                 <button
-                  onClick={() =>
-                    dispatch(addToCart(product))
-                  }
+                  onClick={handleCart}
                   className="w-full bg-black text-white py-3 rounded-full hover:bg-gray-900 "
                 >
                   Add to Cart 🛒
                 </button>
 
-                <button onClick={() => navigate("/payment")} className="w-full border border-black py-3 rounded-full hover:bg-black hover:text-white">
+                <button onClick={handleBuy} className="w-full border border-black py-3 rounded-full hover:bg-black hover:text-white">
                   Buy Now
                 </button>
               </div>
@@ -150,6 +165,7 @@ function ProductDisplay() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

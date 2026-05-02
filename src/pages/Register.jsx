@@ -78,16 +78,14 @@ function Register() {
             className="min-h-screen bg-cover bg-center flex items-center justify-center"
             style={{
                 backgroundImage:
-                   `url(${authBackground})`,
-            }}
-        >
+                    `url(${authBackground})`,
+            }} >
             <div className="absolute inset-0 bg-black/50"></div>
 
             <form
                 onSubmit={handleSubmit}
                 noValidate
-                className="relative z-10 w-[350px] text-center text-white"
-            >
+                className="relative z-10 w-87.5 text-center text-white">
                 <h1 className="text-2xl tracking-widest mb-6">Register Now</h1>
 
                 <input

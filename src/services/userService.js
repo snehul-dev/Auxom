@@ -1,9 +1,4 @@
-import axios from "axios";
-
-const API = axios.create({
-    baseURL:"http://localhost:3001/"
-})
-
+import API from "./api"
 const registerUser = async (userData) => {
   const res = await API.get(`/users?email=${userData.email}`)
 

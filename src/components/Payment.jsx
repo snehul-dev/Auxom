@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { addOrder } from "../redux/slices/orderSlice";
 import { clearCart } from "../redux/slices/cartSlice";
+import Footer from "./Footer";
+import Backbutton from "./Backbutton";
 
 function Payment() {
   const cartItems = useSelector((state) => state.cart.items);
@@ -85,7 +87,7 @@ function Payment() {
   return (
     <>
       <Navbar />
-
+      <Backbutton/>
       <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
         <div className="w-full max-w-5xl grid md:grid-cols-2 gap-6">
 
@@ -171,6 +173,7 @@ function Payment() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

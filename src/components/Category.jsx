@@ -29,17 +29,14 @@ function Category() {
             className="relative group cursor-pointer overflow-hidden rounded-xl"
           >
 
-            {/* IMAGE */}
             <img
               src={item.image}
               alt={item.name}
               className="w-full h-[400px] object-cover group-hover:scale-105 transition duration-500"
             />
 
-            {/* OVERLAY */}
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-300"></div>
 
-            {/* TEXT */}
             <div className="absolute bottom-6 left-6 text-white">
               <h2 className="text-2xl font-medium tracking-wide">
                 {item.name}
@@ -54,18 +51,15 @@ function Category() {
         ))}
       </div>
 
-      {/* 🔥 BUTTON (RIGHT SIDE) */}
       <div className="flex justify-end mt-10">
         <button
           onClick={() => navigate("/products")}
           className="flex items-center gap-2 text-sm font-medium group transition"
         >
-          {/* TEXT */}
           <span className="underline group-hover:no-underline transition duration-300">
             Show All Products
           </span>
 
-          {/* ARROW */}
           <span className="transform transition-transform duration-300 group-hover:translate-x-2">
             →
           </span>

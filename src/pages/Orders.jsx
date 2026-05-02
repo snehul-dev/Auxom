@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function Orders() {
   const orders = useSelector((state) => state.orders.orders);
@@ -61,6 +62,7 @@ function Orders() {
           </div>
         )}
       </div>
+      <Footer/>
     </>
   );
 }

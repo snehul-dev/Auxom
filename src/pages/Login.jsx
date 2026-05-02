@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/slices/authSlice";
 import { setCart } from "../redux/slices/cartSlice";
 import { setOrders } from "../redux/slices/orderSlice";
-import { getUserOrders } from "../services/orderServices";
+
 
 function Login() {
   const navigate = useNavigate();
@@ -28,15 +28,9 @@ function Login() {
       if (data.length > 0) {
         const user = data[0];
 
-        // ✅ Save user
         dispatch(login(user));
-
-        // ✅ Load cart from DB
         dispatch(setCart(user.cart || []));
-
-        // ✅ Load orders from DB
-        const orders = await getUserOrders(user.id);
-        dispatch(setOrders(orders));
+        dispatch(setOrders(user.orders || []));
 
         toast.success("Login successfully");
         navigate("/");
@@ -97,14 +91,12 @@ function Login() {
         backgroundImage: `url(${authBackground})`,
       }}
     >
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
 
-      {/* Form */}
       <form
         onSubmit={handleSubmit}
         noValidate
-        className="relative z-10 w-[350px] text-center text-white"
+        className="relative z-10 w-87.5 text-center text-white"
       >
         <h1 className="text-2xl tracking-widest mb-6">Login</h1>
 
