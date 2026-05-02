@@ -79,7 +79,7 @@ function Payment() {
     dispatch(clearCart());
 
     // ✅ NAVIGATE
-    navigate("/ordersuccess");
+    navigate("/success");
   }
 
   return (

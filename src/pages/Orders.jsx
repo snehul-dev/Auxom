@@ -14,7 +14,7 @@ function Orders() {
         </h1>
 
         {orders.length === 0 ? (
-          <p>No orders yet</p>
+          <p className="text-red-500 text-center text-2xl">No orders yet</p>
         ) : (
           <div className="space-y-6">
             {orders.map((order) => (

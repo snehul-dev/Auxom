@@ -6,6 +6,7 @@
       "password": "snehul123",
       "wishlist": [],
       "cart": [],
+      "orders": [],
       "id": "YzOPAaxZ0H4"
     },
     {
@@ -25,6 +26,50 @@
       "email": "rafeef@gmail.com",
       "password": "rafeef123",
       "id": "K6cJAOrVk68"
+    },
+    {
+      "fullName": "sneha",
+      "email": "sneha@gmail.com",
+      "password": "sneha123",
+      "id": "h7FbqnHLLjM"
+    },
+    {
+      "fullName": "aswand",
+      "email": "aswand@gmail.com",
+      "password": "aswand@123",
+      "id": "YEXRkh2uQG4",
+      "orders": [
+        {
+          "id": 1777648648004,
+          "items": [
+            {
+              "productId": "2",
+              "name": "White Minimal T-Shirt",
+              "price": 899,
+              "image": "/images/tshirt2.jpg",
+              "qty": 1
+            }
+          ],
+          "total": 899,
+          "method": "cod",
+          "date": "1/5/2026, 8:47:28 pm"
+        },
+        {
+          "id": 1777648876937,
+          "items": [
+            {
+              "productId": "11",
+              "name": "Denim Casual Shirt",
+              "price": 1799,
+              "image": "/images/shirt5.jpg",
+              "qty": 1
+            }
+          ],
+          "total": 1799,
+          "method": "cod",
+          "date": "1/5/2026, 8:51:16 pm"
+        }
+      ]
     }
   ],
   "products": [

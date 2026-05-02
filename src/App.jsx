@@ -8,10 +8,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Wishlist from "./components/whishlist"
 import Cart from "./pages/Cart";
 import { Toaster } from "react-hot-toast";
-import UserPage from "./components/UserPage";
 import Payment from "./components/Payment";
 import OrderSuccess from "./components/Ordersuccess";
 import Orders from "./pages/Orders";
+import Notfound from "./components/Notfound";
 
 function App() {
   return (
@@ -22,19 +22,19 @@ function App() {
         <Route
           path="/"
           element={ <Home /> } />
+          
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDisplay />} />
         
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/wishlist" element={<Wishlist/>}/>
-        <Route path="/userpage" element={<UserPage/>}/>
+        <Route path="/cart" element={<ProtectedRoute><Cart/></ProtectedRoute>}/>
+        <Route path="/wishlist" element={<ProtectedRoute><Wishlist/></ProtectedRoute>}/>
         <Route path="/payment" element={<Payment/>}/>
-        <Route path="/ordersuccess" element={<OrderSuccess/>}/>
-        <Route path="/orders" element={<Orders/>}/>
-
+        <Route path="/orders" element={<ProtectedRoute><Orders/></ProtectedRoute>}/>
+        <Route path="/success" element={<OrderSuccess/>}/>
+       <Route path="*" element={<Notfound/>} />
         
       </Routes>
     </>

@@ -58,12 +58,6 @@ function UserPage() {
               <span className="text-gray-500 text-sm">View →</span>
             </div>
 
-            {/* Orders (future ready) */}
-            <div className="flex justify-between items-center border p-4 rounded-xl hover:bg-gray-50 cursor-pointer transition">
-              <span className="font-medium" onClick={()=>navigate("/orders")} >Orders</span>
-              <span className="text-gray-400 text-sm">Coming soon →</span>
-            </div>
-
           </div>
 
           {/* FOOTER */}

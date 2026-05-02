@@ -9,9 +9,10 @@ import { toggleWishlist } from "../redux/slices/whishlistSlice"
 
 
 function ProductDisplay() {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const { id } = useParams();
+  const user = useSelector(state=>state.auth?.user)
 
   const [selectedSize, setSelectedSize] = useState(null);
 
@@ -31,7 +32,15 @@ function ProductDisplay() {
   const isLiked = wishlistItems.some(
     (item) => item.id === product?.id
   );
+  const handleWishlist = (e) => {
+    e.stopPropagation();
+    if (!user) {
+      navigate("/login")
+    } else {
+      dispatch(toggleWishlist(product));
+    }
 
+  }
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>Error loading product</h1>;
   if (!product) return <h1>Product Not Found</h1>;
@@ -54,18 +63,14 @@ function ProductDisplay() {
         <div className="h-full flex items-center justify-center bg-white px-6 md:px-10 overflow-y-auto relative">
           {/* ❤️ Wishlist */}
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(toggleWishlist(product));
-            }}
+            onClick={handleWishlist}
             className="absolute top-5 right-5 p-2 rounded-full bg-white/80 backdrop-blur-md shadow-md hover:scale-110 transition"
           >
             <span
-              className={`text-xl ${
-                isLiked
-                  ? "text-red-500 scale-110"
-                  : "text-gray-400"
-              }`}
+              className={`text-xl ${isLiked
+                ? "text-red-500 scale-110"
+                : "text-gray-400"
+                }`}
             >
               {isLiked ? "❤️" : "🤍"}
             </span>
@@ -114,11 +119,10 @@ function ProductDisplay() {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 border rounded-full ${
-                      selectedSize === size
-                        ? "bg-black text-white"
-                        : "hover:bg-black hover:text-white"
-                    }`}
+                    className={`px-4 py-2 border rounded-full ${selectedSize === size
+                      ? "bg-black text-white"
+                      : "hover:bg-black hover:text-white"
+                      }`}
                   >
                     {size}
                   </button>
@@ -133,12 +137,12 @@ function ProductDisplay() {
                   onClick={() =>
                     dispatch(addToCart(product))
                   }
-                  className="w-full bg-black text-white py-3 rounded-full hover:bg-gray-900"
+                  className="w-full bg-black text-white py-3 rounded-full hover:bg-gray-900 "
                 >
                   Add to Cart 🛒
                 </button>
 
-                <button onClick={()=>navigate("/payment")} className="w-full border border-black py-3 rounded-full hover:bg-black hover:text-white">
+                <button onClick={() => navigate("/payment")} className="w-full border border-black py-3 rounded-full hover:bg-black hover:text-white">
                   Buy Now
                 </button>
               </div>

@@ -1,79 +1,93 @@
-import React, { useState } from 'react'
-import authBackground from "../assets/authBackground.jpeg"
-import { useMutation } from '@tanstack/react-query'
-import { loginUser } from "../services/userService"
-import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from "react-redux"
-import { login } from "../redux/slices/authSlice"
+import React, { useState } from "react";
+import authBackground from "../assets/authBackground.jpeg";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "../services/userService";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { login } from "../redux/slices/authSlice";
+import { setCart } from "../redux/slices/cartSlice";
+import { setOrders } from "../redux/slices/orderSlice";
+import { getUserOrders } from "../services/orderServices";
 
 function Login() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [error, setError] = useState({})
+  const [error, setError] = useState({});
   const [input, setInput] = useState({
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   const mutation = useMutation({
     mutationFn: loginUser,
 
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data.length > 0) {
-        dispatch(login(data[0]))
+        const user = data[0];
 
-        toast.success("Login successfully")
-        navigate("/")
+        // ✅ Save user
+        dispatch(login(user));
+
+        // ✅ Load cart from DB
+        dispatch(setCart(user.cart || []));
+
+        // ✅ Load orders from DB
+        const orders = await getUserOrders(user.id);
+        dispatch(setOrders(orders));
+
+        toast.success("Login successfully");
+        navigate("/");
       } else {
-        toast.error("Invalid credentials")
+        toast.error("Invalid credentials");
       }
     },
 
     onError: () => {
-      toast.error("Login Failed")
-    }
-  })
+      toast.error("Login Failed");
+    },
+  });
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    const validateErrors = validate()
+    const validateErrors = validate();
     if (Object.keys(validateErrors).length > 0) {
-      setError(validateErrors)
-      return
+      setError(validateErrors);
+      return;
     }
 
     mutation.mutate({
       email: input.email,
-      password: input.password
-    })
+      password: input.password,
+    });
   }
 
   const validate = () => {
-    const err = {}
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const err = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!input.email) {
-      err.email = "Email required"
+      err.email = "Email required";
     } else if (!emailRegex.test(input.email)) {
-      err.email = "Invalid email format"
+      err.email = "Invalid email format";
     }
 
     if (!input.password) {
-      err.password = "Password required"
+      err.password = "Password required";
     }
 
-    return err
-  }
+    return err;
+  };
 
   function handleInput(e) {
-    const { value, name } = e.target
+    const { value, name } = e.target;
     setInput((prev) => ({
       ...prev,
-      [name]: value
-    }))
+      [name]: value,
+    }));
   }
 
   return (
@@ -83,9 +97,10 @@ function Login() {
         backgroundImage: `url(${authBackground})`,
       }}
     >
-
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
 
+      {/* Form */}
       <form
         onSubmit={handleSubmit}
         noValidate
@@ -93,6 +108,7 @@ function Login() {
       >
         <h1 className="text-2xl tracking-widest mb-6">Login</h1>
 
+        {/* EMAIL */}
         <input
           type="email"
           name="email"
@@ -103,6 +119,7 @@ function Login() {
         />
         <p className="text-red-300 text-sm mb-2">{error.email}</p>
 
+        {/* PASSWORD */}
         <input
           type="password"
           name="password"
@@ -113,6 +130,7 @@ function Login() {
         />
         <p className="text-red-300 text-sm mb-3">{error.password}</p>
 
+        {/* BUTTON */}
         <button
           type="submit"
           disabled={mutation.isPending}
@@ -125,6 +143,7 @@ function Login() {
           {mutation.isPending ? "Logging in..." : "Login"}
         </button>
 
+        {/* REGISTER */}
         <p className="text-sm mt-4 text-gray-300">
           Don’t have an account?{" "}
           <span
@@ -139,4 +158,4 @@ function Login() {
   );
 }
 
-export default Login
+export default Login;

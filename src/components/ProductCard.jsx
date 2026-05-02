@@ -4,6 +4,7 @@ import { addToCart } from "../redux/slices/cartSlice";
 import { toggleWishlist } from "../redux/slices/whishlistSlice"
 
 function ProductCard({ item }) {
+  const user = useSelector((state) => state.auth?.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -15,61 +16,76 @@ function ProductCard({ item }) {
     (i) => i.id === item.id
   );
 
-  return (
-    <div
-      onClick={() => navigate(`/products/${item.id}`)}
-      className="relative bg-white rounded-xl overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition"
-    >
-      {/* ❤️ Wishlist */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          dispatch(toggleWishlist(item));
-        }}
-        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 backdrop-blur-md shadow-md hover:scale-110 transition"
+  function handleAdd(e) {
+
+    e.stopPropagation();
+    if (!user) {
+      navigate("/login")
+      console.log("called")
+    } else {
+      dispatch(addToCart(item));
+    }
+  }
+
+
+    const handleWishlist = (e) => {
+      e.stopPropagation();
+      if (!user) {
+        navigate("/login")
+      } else {
+        dispatch(toggleWishlist(item));
+      }
+
+    }
+
+    return (
+      <div
+        onClick={() => navigate(`/products/${item.id}`)}
+        className="relative bg-white rounded-xl overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition"
       >
-        <span
-          className={`text-xl ${
-            isLiked ? "text-red-500 scale-110" : "text-gray-400"
-          }`}
+        {/* ❤️ Wishlist */}
+        <button
+          onClick={handleWishlist}
+          className="absolute top-4 right-4 z-10 p-1 rounded-full bg-white/80 backdrop-blur-md shadow-md hover:scale-110 transition"
         >
-          {isLiked ? "❤️" : "🤍"}
-        </span>
-      </button>
-
-      <img
-        src={item.image}
-        alt={item.name}
-        className="h-60 w-full object-cover"
-      />
-
-      <div className="p-3">
-        <h2 className="font-semibold">{item.name}</h2>
-        <p>₹{item.price}</p>
-
-        <div className="text-yellow-500 text-lg">
-          {"★".repeat(Math.floor(item.rating))}
-          {"☆".repeat(5 - Math.floor(item.rating))}
-        </div>
-
-        {item.InStock ? (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(addToCart(item));
-            }}
-            className="mt-3 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900"
+          <span
+            className={`text-md ${isLiked ? "text-red-500 scale-110" : "text-gray-400"
+              }`}
           >
-            Add 🛒
-          </button>
-        ) : (
-          <button className="mt-3 w-full bg-gray-100 text-red-500 py-2 rounded-lg">
-            Out Of Stock
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
+            {isLiked ? "❤️" : "🤍"}
+          </span>
+        </button>
 
-export default ProductCard;
+        <img
+          src={item.image}
+          alt={item.name}
+          className="h-60 w-full object-cover"
+        />
+
+        <div className="p-3">
+          <h2 className="font-semibold">{item.name}</h2>
+          <p>₹{item.price}</p>
+
+          <div className="text-yellow-500 text-lg">
+            {"★".repeat(Math.floor(item.rating))}
+            {"☆".repeat(5 - Math.floor(item.rating))}
+          </div>
+
+          {item.InStock ? (
+            <button
+              onClick={handleAdd}
+              className="mt-3 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900"
+            >
+              Add 🛒
+            </button>
+          ) : (
+            <button className="mt-3 w-full bg-gray-100 text-red-500 py-2 rounded-lg">
+              Out Of Stock
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  export default ProductCard;
