@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/slices/authSlice";
 import { setCart } from "../redux/slices/cartSlice";
 import { setOrders } from "../redux/slices/orderSlice";
+import { setWishlist } from "../redux/slices/whishlistSlice";
 
 
 function Login() {
@@ -29,8 +30,34 @@ function Login() {
         const user = data[0];
 
         dispatch(login(user));
-        dispatch(setCart(user.cart || []));
-        dispatch(setOrders(user.orders || []));
+        const persistedCart =
+          JSON.parse(localStorage.getItem(`cart_${user.id}`)) || [];
+        const persistedOrders =
+          JSON.parse(localStorage.getItem(`orders_${user.id}`)) || [];
+        const persistedWishlist =
+          JSON.parse(localStorage.getItem(`wishlist_${user.id}`)) || [];
+
+        dispatch(
+          setCart(
+            Array.isArray(user.cart) && user.cart.length > 0
+              ? user.cart
+              : persistedCart
+          )
+        );
+        dispatch(
+          setOrders(
+            Array.isArray(user.orders) && user.orders.length > 0
+              ? user.orders
+              : persistedOrders
+          )
+        );
+        dispatch(
+          setWishlist(
+            Array.isArray(user.wishlist) && user.wishlist.length > 0
+              ? user.wishlist
+              : persistedWishlist
+          )
+        );
 
         toast.success("Login successfully");
         navigate("/");

@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
+import { resetCart } from "../redux/slices/cartSlice";
+import { resetWishlist } from "../redux/slices/whishlistSlice";
+import { resetOrders } from "../redux/slices/orderSlice";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
@@ -16,6 +19,9 @@ function Navbar() {
 
   function handleLogout() {
     dispatch(logout());
+    dispatch(resetCart());
+    dispatch(resetWishlist());
+    dispatch(resetOrders());
     navigate("/");
   }
 

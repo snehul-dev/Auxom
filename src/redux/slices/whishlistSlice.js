@@ -1,7 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const getUserFromStorage = () => {
+  try {
+    return JSON.parse(localStorage.getItem("user"));
+  } catch {
+    return null;
+  }
+};
+
+const storageKey = (key) => {
+  const user = getUserFromStorage();
+  return user?.id ? `${key}_${user.id}` : key;
+};
+
+const genericWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+const wishlistFromStorage =
+  JSON.parse(localStorage.getItem(storageKey("wishlist"))) || genericWishlist || [];
+const saveWishlistToStorage = (items) => {
+  localStorage.setItem(storageKey("wishlist"), JSON.stringify(items));
+};
+
 const initialState = {
-  items: [],
+  items: wishlistFromStorage,
 };
 
 const wishlistSlice = createSlice({
@@ -25,6 +45,7 @@ const wishlistSlice = createSlice({
         // add
         state.items.push(item);
       }
+      saveWishlistToStorage(state.items);
     },
 
     // ➕ Add explicitly
@@ -45,16 +66,22 @@ const wishlistSlice = createSlice({
       state.items = state.items.filter(
         (item) => item.id !== action.payload
       );
+      saveWishlistToStorage(state.items);
     },
 
     // 🧹 Clear all
     clearWishlist: (state) => {
+      state.items = [];
+      saveWishlistToStorage(state.items);
+    },
+    resetWishlist: (state) => {
       state.items = [];
     },
 
     // 🔄 Set (useful for login / backend sync)
     setWishlist: (state, action) => {
       state.items = action.payload;
+      saveWishlistToStorage(state.items);
     },
   },
 });
@@ -64,6 +91,7 @@ export const {
   addToWishlist,
   removeFromWishlist,
   clearWishlist,
+  resetWishlist,
   setWishlist,
 } = wishlistSlice.actions;
 
