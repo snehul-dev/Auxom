@@ -15,7 +15,6 @@ function Products() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  // 🔥 Debounce logic
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search.toLowerCase());
@@ -32,7 +31,6 @@ function Products() {
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>Error</h1>;
 
-  // 🔹 Category filter
   const filtered =
     category === "all"
       ? data
@@ -41,12 +39,10 @@ function Products() {
             item.category.toLowerCase() === category.toLowerCase()
         );
 
-  // 🔥 Search filter
   const searchedProducts = filtered.filter((item) =>
     item.name.toLowerCase().includes(debouncedSearch)
   );
 
-  // 🔹 Sorting
   let sortedProducts = [...searchedProducts];
 
   if (sorted === "byPriceInc") {
@@ -67,10 +63,9 @@ function Products() {
       <Backbutton />
 
       <div className="px-6 py-10">
-        {/* 🔥 SEARCH + SORT */}
+
         <div className="flex justify-between items-center mb-4 gap-4 flex-wrap">
-          
-          {/* SEARCH */}
+
           <input
             type="text"
             placeholder="Search products..."
@@ -79,7 +74,6 @@ function Products() {
             className="w-full sm:w-64 border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
           />
 
-          {/* SORT */}
           <select
             className="appearance-none bg-white border border-gray-300 text-sm px-4 py-2 rounded-lg shadow-sm 
             focus:outline-none focus:ring-2 focus:ring-black cursor-pointer transition"
@@ -96,7 +90,6 @@ function Products() {
           {category === "all" ? "All Products" : category}
         </h1>
 
-        {/* PRODUCTS */}
         {sortedProducts.length === 0 ? (
           <p className="text-center text-gray-500">
             No products found 

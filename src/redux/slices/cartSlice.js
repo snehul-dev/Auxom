@@ -10,13 +10,14 @@
 
   const storageKey = (key) => {
     const user = getUserFromStorage();
-    return user?.id ? `${key}_${user.id}` : key;
+    return user?.id ? `${key}_${user.id}` : null;
   };
 
-  const genericCart = JSON.parse(localStorage.getItem("cart")) || [];
-  const cartFromStorage =
-    JSON.parse(localStorage.getItem(storageKey("cart"))) || genericCart || [];
-
+const cartFromStorage = (() => {
+  const key = storageKey("cart");
+  if (!key) return [];
+  return JSON.parse(localStorage.getItem(key)) || [];
+})();
   const saveCartToStorage = (items) => {
     localStorage.setItem(storageKey("cart"), JSON.stringify(items));
   };
@@ -43,6 +44,7 @@
         } else {
           state.items.push({
             productId: item.id,
+            inStock:item.inStock,
             name: item.name,
             price: item.price,
             image: item.image,
@@ -76,7 +78,6 @@
         if (item && item.qty > 1) {
           item.qty -= 1;
         } else {
-          // remove if qty becomes 0
           state.items = state.items.filter(
             (i) => i.productId !== action.payload
           );

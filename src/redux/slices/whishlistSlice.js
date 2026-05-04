@@ -10,14 +10,20 @@ const getUserFromStorage = () => {
 
 const storageKey = (key) => {
   const user = getUserFromStorage();
-  return user?.id ? `${key}_${user.id}` : key;
+  return user?.id ? `${key}_${user.id}` : null;
 };
 
-const genericWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-const wishlistFromStorage =
-  JSON.parse(localStorage.getItem(storageKey("wishlist"))) || genericWishlist || [];
+const wishlistFromStorage = (() => {
+  const key = storageKey("wishlist");
+  if (!key) return []; 
+  return JSON.parse(localStorage.getItem(key)) || [];
+})();
+
 const saveWishlistToStorage = (items) => {
-  localStorage.setItem(storageKey("wishlist"), JSON.stringify(items));
+  const key = storageKey("wishlist");
+  if (key) {
+    localStorage.setItem(key, JSON.stringify(items));
+  }
 };
 
 const initialState = {
@@ -28,40 +34,19 @@ const wishlistSlice = createSlice({
   name: "wishlist",
   initialState,
   reducers: {
-    // 🔁 Toggle (Add / Remove)
     toggleWishlist: (state, action) => {
       const item = action.payload;
 
-      const exists = state.items.find(
-        (i) => i.id === item.id
-      );
+      const exists = state.items.find((i) => i.id === item.id);
 
       if (exists) {
-        // remove
-        state.items = state.items.filter(
-          (i) => i.id !== item.id
-        );
+        state.items = state.items.filter((i) => i.id !== item.id);
       } else {
-        // add
         state.items.push(item);
       }
+
       saveWishlistToStorage(state.items);
     },
-
-    // ➕ Add explicitly
-    addToWishlist: (state, action) => {
-      const item = action.payload;
-
-      const exists = state.items.find(
-        (i) => i.id === item.id
-      );
-
-      if (!exists) {
-        state.items.push(item);
-      }
-    },
-
-    // ❌ Remove explicitly
     removeFromWishlist: (state, action) => {
       state.items = state.items.filter(
         (item) => item.id !== action.payload
@@ -69,16 +54,10 @@ const wishlistSlice = createSlice({
       saveWishlistToStorage(state.items);
     },
 
-    // 🧹 Clear all
-    clearWishlist: (state) => {
-      state.items = [];
-      saveWishlistToStorage(state.items);
-    },
     resetWishlist: (state) => {
       state.items = [];
     },
 
-    // 🔄 Set (useful for login / backend sync)
     setWishlist: (state, action) => {
       state.items = action.payload;
       saveWishlistToStorage(state.items);

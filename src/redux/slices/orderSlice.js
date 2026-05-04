@@ -10,14 +10,20 @@ const getUserFromStorage = () => {
 
 const storageKey = (key) => {
   const user = getUserFromStorage();
-  return user?.id ? `${key}_${user.id}` : key;
+  return user?.id ? `${key}_${user.id}` : null;
 };
 
-const genericOrders = JSON.parse(localStorage.getItem("orders")) || [];
-const ordersFromStorage =
-  JSON.parse(localStorage.getItem(storageKey("orders"))) || genericOrders || [];
+const ordersFromStorage = (() => {
+  const key = storageKey("orders");
+  if (!key) return []; 
+  return JSON.parse(localStorage.getItem(key)) || [];
+})();
+
 const saveOrdersToStorage = (orders) => {
-  localStorage.setItem(storageKey("orders"), JSON.stringify(orders));
+  const key = storageKey("orders");
+  if (key) {
+    localStorage.setItem(key, JSON.stringify(orders));
+  }
 };
 
 const initialState = {
@@ -42,11 +48,14 @@ const orderSlice = createSlice({
       state.orders = [];
       saveOrdersToStorage(state.orders);
     },
+
     resetOrders: (state) => {
       state.orders = [];
     },
   },
 });
 
-export const { addOrder, setOrders, clearOrders, resetOrders } = orderSlice.actions;
+export const { addOrder, setOrders, clearOrders, resetOrders } =
+  orderSlice.actions;
+
 export default orderSlice.reducer;

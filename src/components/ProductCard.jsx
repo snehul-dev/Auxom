@@ -19,7 +19,7 @@ function ProductCard({ item }) {
   function handleAdd(e) {
 
     e.stopPropagation();
-    if (!user) {
+    if (!user) {    
       navigate("/login")
       console.log("called")
     } else {
@@ -43,7 +43,6 @@ function ProductCard({ item }) {
         onClick={() => navigate(`/products/${item.id}`)}
         className="relative bg-white rounded-xl overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition"
       >
-        {/* ❤️ Wishlist */}
         <button
           onClick={handleWishlist}
           className="absolute top-4 right-4 z-10 p-1 rounded-full bg-white/80 backdrop-blur-md shadow-md hover:scale-110 transition"

@@ -63,8 +63,6 @@ function Payment() {
       setError(errors);
       return;
     }
-
-    // ✅ CREATE ORDER OBJECT
     const newOrder = {
       id: Date.now(),
       items: cartItems,
@@ -74,13 +72,9 @@ function Payment() {
       address: form,
     };
 
-    // ✅ SAVE ORDER
     dispatch(addOrder(newOrder));
 
-    // ✅ CLEAR CART
     dispatch(clearCart());
-
-    // ✅ NAVIGATE
     navigate("/success");
   }
 
@@ -91,7 +85,6 @@ function Payment() {
       <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
         <div className="w-full max-w-5xl grid md:grid-cols-2 gap-6">
 
-          {/* LEFT */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-xl font-semibold mb-4">
               Shipping Details
@@ -116,7 +109,6 @@ function Payment() {
             </div>
           </div>
 
-          {/* RIGHT */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-xl font-semibold mb-4">
               Order Summary
@@ -136,7 +128,6 @@ function Payment() {
               <span>₹{total}</span>
             </div>
 
-            {/* PAYMENT */}
             <div className="mt-6">
               <h3 className="mb-2 font-medium">Payment Method</h3>
 

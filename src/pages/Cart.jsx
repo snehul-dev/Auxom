@@ -1,10 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../components/Navbar";
-import {
-  increaseQty,
-  decreaseQty,
-  removeFromCart,
-} from "../redux/slices/cartSlice";
+import {increaseQty,decreaseQty,removeFromCart} from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Backbutton from "../components/Backbutton";
@@ -35,7 +31,6 @@ function Cart() {
             </div>
           ) : (
             <>
-              {/* CART ITEMS */}
               <div className="space-y-5">
                 {cartItems.map((item) => (
                   <div
@@ -56,7 +51,6 @@ function Cart() {
                         ₹{item.price}
                       </p>
 
-                      {/* QUANTITY */}
                       <div className="flex items-center gap-3 mt-3">
                         <button
                           onClick={() =>
@@ -82,7 +76,6 @@ function Cart() {
                       </div>
                     </div>
 
-                    {/* REMOVE */}
                     <button
                       onClick={() =>
                         dispatch(removeFromCart(item.productId))
@@ -95,7 +88,6 @@ function Cart() {
                 ))}
               </div>
 
-              {/* CHECKOUT SECTION */}
               <div className="mt-10 bg-white rounded-2xl shadow-lg p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
                   <p className="text-gray-500 text-sm">
@@ -108,7 +100,7 @@ function Cart() {
 
                 <button
                   onClick={() => navigate("/payment")}
-                  className="relative group bg-gradient-to-r from-black to-gray-800 text-white px-8 py-3 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                  className="relative group bg-linear-to-r from-black to-gray-800 text-white px-8 py-3 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                 >
                   <span className="relative z-10 flex items-center gap-2 font-medium tracking-wide">
                     Checkout →

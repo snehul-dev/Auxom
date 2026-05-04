@@ -5,9 +5,7 @@ function Footer() {
   return (
     <footer className="bg-black text-white px-10 py-16">
 
-
       <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-
 
         <div>
           <h2 className="text-2xl font-semibold tracking-wide mb-4"

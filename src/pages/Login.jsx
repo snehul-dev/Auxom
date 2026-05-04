@@ -127,7 +127,6 @@ function Login() {
       >
         <h1 className="text-2xl tracking-widest mb-6">Login</h1>
 
-        {/* EMAIL */}
         <input
           type="email"
           name="email"

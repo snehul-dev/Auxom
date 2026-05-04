@@ -67,7 +67,6 @@ const handleBuy = () => {
       <Navbar />
 
       <div className="h-screen grid md:grid-cols-2">
-        {/* IMAGE */}
         <div className="h-full">
           <img
             src={product.image}
@@ -76,9 +75,7 @@ const handleBuy = () => {
           />
         </div>
 
-        {/* DETAILS */}
         <div className="h-full flex items-center justify-center bg-white px-6 md:px-10 overflow-y-auto relative">
-          {/* ❤️ Wishlist */}
           <button
             onClick={handleWishlist}
             className="absolute top-5 right-5 p-2 rounded-full bg-white/80 backdrop-blur-md shadow-md hover:scale-110 transition"
@@ -147,7 +144,6 @@ const handleBuy = () => {
               </div>
             </div>
 
-            {/* ACTIONS */}
             {product.InStock && (
               <div className="flex gap-4 mt-4">
                 <button

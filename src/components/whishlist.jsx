@@ -4,6 +4,7 @@ import { removeFromWishlist } from "../redux/slices/whishlistSlice";
 import { addToCart } from "../redux/slices/cartSlice";
 import Footer from "./Footer";
 import Backbutton from "./Backbutton";
+import toast from "react-hot-toast";
 
 function Wishlist() {
   const wishlistItems = useSelector(
@@ -15,7 +16,7 @@ function Wishlist() {
   return (
     <>
       <Navbar />
-      <Backbutton/>
+      <Backbutton />
 
       <div className="bg-gray-50 min-h-screen py-10 px-4">
         <div className="max-w-5xl mx-auto">
@@ -50,7 +51,6 @@ function Wishlist() {
                     ₹{item.price}
                   </p>
 
-                  {/* ⭐ Rating */}
                   <div className="text-yellow-500 text-lg">
                     {"★".repeat(Math.floor(item.rating))}
                     {"☆".repeat(
@@ -58,16 +58,33 @@ function Wishlist() {
                     )}
                   </div>
 
-                  {/* ACTIONS */}
                   <div className="flex gap-2 mt-4">
-                    <button
-                      onClick={() =>
-                        dispatch(addToCart(item))
-                      }
-                      className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-gray-900"
-                    >
-                      Add 🛒
-                    </button>
+                    {((item.inStock ?? item.InStock) === false) ? (
+                      <>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                           toast("We'll notify you when this item is back in stock.")
+                          }
+                          className="flex-1 border border-blue-500 text-blue-500 py-2 rounded-lg hover:bg-blue-50"
+                        >
+                          Notify Me
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() =>
+                            dispatch(addToCart(item))
+                          }
+                          className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-gray-900"
+                        >
+                          Add 🛒
+                        </button>
+                      </>
+                    )}
+
 
                     <button
                       onClick={() =>
@@ -84,7 +101,7 @@ function Wishlist() {
           )}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

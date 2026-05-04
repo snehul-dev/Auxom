@@ -8,8 +8,8 @@ function Trending() {
     queryFn: getProducts,
   });
 
-  const trending = data.slice(0, 4);
-
+   const trend = data.sort((a,b)=>a.rating-b.rating)
+  const trending = trend.slice(0,4)
   return (
     <div className="px-6 md:px-10">
       <h1 className="text-center text-4xl font-semibold mb-8 tracking-wide">Trending Items</h1>
