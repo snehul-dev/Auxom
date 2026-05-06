@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 
 function Orders() {
   const orders = useSelector((state) => state.orders.orders);
+  const latestOrders = [...orders].reverse()
 
   return (
     <>
@@ -14,11 +15,11 @@ function Orders() {
           Your Orders 📦
         </h1>
 
-        {orders.length === 0 ? (
+        {latestOrders.length === 0 ? (
           <p className="text-red-500 text-center text-2xl">No orders yet</p>
         ) : (
           <div className="space-y-6">
-            {orders.map((order) => (
+            {latestOrders.map((order) => (
               <div
                 key={order.id}
                 className="bg-white p-6 rounded-xl shadow"

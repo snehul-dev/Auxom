@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 import { resetCart } from "../redux/slices/cartSlice";
 import { resetWishlist } from "../redux/slices/whishlistSlice";
 import { resetOrders } from "../redux/slices/orderSlice";
+import { getProducts } from "../services/productService";
+import { useQuery } from "@tanstack/react-query";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
@@ -13,9 +15,13 @@ function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
+  const [search, setSearch] = useState("")
+  const [debounceSearch, setDebounceSearch] = useState("")
   const [open, setOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
+
 
   function handleLogout() {
     dispatch(logout());
@@ -24,8 +30,30 @@ function Navbar() {
     dispatch(resetOrders());
     navigate("/");
   }
-
+  const { data = [] } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts
+  })
   const isActive = (path) => location.pathname === path;
+  const searchQuery = searchParams.get("search") || "";
+
+  useEffect(() => {
+    if (location.pathname === "/products") {
+      setSearch(searchQuery);
+    }
+  }, [location.pathname, searchQuery]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebounceSearch(search.toLowerCase())
+    }, 400);
+    return () => clearTimeout(timer)
+  }, [search])
+  useEffect(() => {
+    if (debounceSearch.trim()) {
+      navigate(`/products?search=${debounceSearch}`)
+    }
+  }, [debounceSearch, navigate])
 
   return (
     <div className="bg-black text-white px-6 md:px-10 py-5 sticky top-0 z-50">
@@ -65,7 +93,13 @@ function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="px-4 py-2 w-64 bg-gray-900 text-white placeholder-gray-400 border border-gray-700 rounded-full outline-none focus:border-white focus:ring-1 focus:ring-white transition"
+          />
           <div
             className="relative cursor-pointer"
             onClick={() => navigate("/cart")}
@@ -81,8 +115,8 @@ function Navbar() {
           <div
             onClick={() => navigate("/wishlist")}
             className={`relative cursor-pointer ${isActive("/wishlist")
-                ? "text-cyan-400"
-                : "hover:text-gray-400"
+              ? "text-cyan-400"
+              : "hover:text-gray-400"
               }`}
           >
             Wishlist

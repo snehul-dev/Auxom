@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Products from "./components/Products";
 import ProductDisplay from "./components/ProductDisplay";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute"
 import Wishlist from "./components/whishlist"
 import Cart from "./pages/Cart";
 import { Toaster } from "react-hot-toast";
