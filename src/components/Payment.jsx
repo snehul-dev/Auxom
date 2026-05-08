@@ -6,12 +6,14 @@ import { addOrder } from "../redux/slices/orderSlice";
 import { clearCart } from "../redux/slices/cartSlice";
 import Footer from "./Footer";
 import Backbutton from "./Backbutton";
+import { addOrderAPI } from "../services/orderService";
+import { clearCart as clearCartAPI } from "../services/cartService";
 
 function Payment() {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const user = useSelector((s)=>s?.auth.user)
   const [method, setMethod] = useState("cod");
 
   const [form, setForm] = useState({
@@ -56,7 +58,7 @@ function Payment() {
     form.city &&
     form.pincode;
 
-  function handlePayment() {
+  async function handlePayment() {
     const errors = validate();
 
     if (Object.keys(errors).length > 0) {
@@ -64,16 +66,20 @@ function Payment() {
       return;
     }
     const newOrder = {
-      id: Date.now(),
+      userId:user.id,
       items: cartItems,
       total,
       method,
       date: new Date().toLocaleString(),
       address: form,
     };
+ 
 
-    dispatch(addOrder(newOrder));
 
+    const ordersdb = await addOrderAPI(newOrder)
+
+    dispatch(addOrder(ordersdb));
+    await clearCartAPI(user.id)
     dispatch(clearCart());
     navigate("/success");
   }

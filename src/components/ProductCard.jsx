@@ -2,48 +2,99 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 import { toggleWishlist } from "../redux/slices/whishlistSlice"
+import { addToCartAPI, updateCartItem } from "../services/cartService";
+import { addToWishlistAPI, removeFromWishlist } from "../services/wishlistService";
+
 
 function ProductCard({ item }) {
-  const user = useSelector((state) => state.auth?.user)
+  const user = useSelector((state) => state?.auth.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cartItems = useSelector((s) => s?.cart.items)
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
-  const wishlistItems = useSelector(
-    (state) => state.wishlist.items
+  const isLiked = wishlistItems?.some(
+    (i) => i.productId === item.id
   );
 
-  const isLiked = wishlistItems.some(
-    (i) => i.id === item.id
-  );
-
-  function handleAdd(e) {
-
+  async function handleAdd(e) {
     e.stopPropagation();
-    if (!user) {
-      navigate("/login")
-      console.log("called")
-    } else {
-      dispatch(addToCart(item));
-    }
-  }
 
-
-  const handleWishlist = (e) => {
-    e.stopPropagation();
     if (!user) {
-      navigate("/login")
-    } else {
-      dispatch(toggleWishlist(item));
+      navigate("/login");
+      return;
     }
 
+    const existing = cartItems.find(
+      (i) => i.productId === item.id
+    );
+
+    if (existing) {
+      const updatedItem = {
+        ...existing,
+        qty: existing.qty + 1,
+      };
+
+
+      await updateCartItem(existing.id, updatedItem);
+
+      dispatch(addToCart({
+        ...existing,
+        qty: 1,
+      }));
+
+      return;
+    }
+
+    const { id, ...rest } = item;
+
+    const cartItem = {
+      ...rest,
+      productId: id,
+      userId: user.id,
+      qty: 1,
+    };
+
+    const savedCartItem =
+      await addToCartAPI(cartItem);
+
+    dispatch(addToCart(savedCartItem));
   }
 
+  const handleWishlist = async (e) => {
+    e.stopPropagation();
+
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    const existing = wishlistItems.find((i) => i.productId === item.id)
+    if (existing) {
+      await removeFromWishlist(existing.id)
+      dispatch(toggleWishlist(existing))
+    } else {
+      const { id, ...rest } = item;
+
+      const wishlistItem = {
+        ...rest,
+        productId: id,
+        userId: user.id,
+      };
+
+      const savedWishlist =
+        await addToWishlistAPI(wishlistItem);
+
+      dispatch(toggleWishlist(savedWishlist));
+
+    }
+
+  };
   return (
     <div
       onClick={() => navigate(`/products/${item.id}`)}
       className="relative bg-white rounded-xl overflow-hidden shadow-md cursor-pointer 
-transition-all duration-300 ease-in-out 
-hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02]"
+      transition-all duration-300 ease-in-out 
+      hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02]"
     >
       <button
         onClick={handleWishlist}
@@ -87,6 +138,13 @@ hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02]"
       </div>
     </div>
   );
+
+
 }
+
+
+
+
+
 
 export default ProductCard;

@@ -4,7 +4,10 @@ import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "../services/userService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCart } from "../services/cartService";
+import { getWishlist } from "../services/wishlistService";
+import { getOrders } from "../services/orderService";
 
 import { login } from "../redux/slices/authSlice";
 import { setCart } from "../redux/slices/cartSlice";
@@ -15,7 +18,7 @@ import { setWishlist } from "../redux/slices/whishlistSlice";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state?.auth.user)
   const [error, setError] = useState({});
   const [input, setInput] = useState({
     email: "",
@@ -30,34 +33,13 @@ function Login() {
         const user = data[0];
 
         dispatch(login(user));
-        const persistedCart =
-          JSON.parse(localStorage.getItem(`cart_${user.id}`)) || [];
-        const persistedOrders =
-          JSON.parse(localStorage.getItem(`orders_${user.id}`)) || [];
-        const persistedWishlist =
-          JSON.parse(localStorage.getItem(`wishlist_${user.id}`)) || [];
+        const cartData = await getCart(user.id)
+        const wishlistData = await getWishlist(user.id)
+        const orderData = await getOrders(user.id)
 
-        dispatch(
-          setCart(
-            Array.isArray(user.cart) && user.cart.length > 0
-              ? user.cart
-              : persistedCart
-          )
-        );
-        dispatch(
-          setOrders(
-            Array.isArray(user.orders) && user.orders.length > 0
-              ? user.orders
-              : persistedOrders
-          )
-        );
-        dispatch(
-          setWishlist(
-            Array.isArray(user.wishlist) && user.wishlist.length > 0
-              ? user.wishlist
-              : persistedWishlist
-          )
-        );
+        dispatch(setCart(cartData))
+        dispatch(setWishlist(wishlistData))
+        dispatch(setOrders(orderData))
 
         toast.success("Login successfully");
         navigate("/");
@@ -152,11 +134,10 @@ function Login() {
         <button
           type="submit"
           disabled={mutation.isPending}
-          className={`w-full py-3 rounded-full transition ${
-            mutation.isPending
+          className={`w-full py-3 rounded-full transition ${mutation.isPending
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-[#4fd1c5] hover:opacity-90"
-          }`}
+            }`}
         >
           {mutation.isPending ? "Logging in..." : "Login"}
         </button>

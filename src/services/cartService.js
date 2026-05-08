@@ -5,7 +5,7 @@ const getCart = async (userId) => {
   return res.data;
 };
 
-const addToCart = async (cartItem) => {
+const addToCartAPI = async (cartItem) => {
   const res = await API.post("/carts", cartItem);
   return res.data;
 };
@@ -26,4 +26,4 @@ const clearCart = async (userId) => {
   await Promise.all(items.map(item => API.delete(`/carts/${item.id}`)));
 };
 
-export { getCart, addToCart, updateCartItem, removeFromCart, clearCart };
+export { getCart, addToCartAPI, updateCartItem, removeFromCart, clearCart };

@@ -5,7 +5,7 @@ const getOrders = async (userId) => {
   return res.data;
 };
 
-const addOrder = async (order) => {
+const addOrderAPI = async (order) => {
   const res = await API.post("/orders", order);
   return res.data;
 };
@@ -16,4 +16,4 @@ const clearOrders = async (userId) => {
   await Promise.all(items.map(item => API.delete(`/orders/${item.id}`)));
 };
 
-export { getOrders, addOrder, clearOrders };
+export { getOrders, addOrderAPI, clearOrders };

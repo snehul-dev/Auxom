@@ -5,7 +5,7 @@ const getWishlist = async (userId) => {
   return res.data;
 };
 
-const addToWishlist = async (wishlistItem) => {
+const addToWishlistAPI = async (wishlistItem) => {
   const res = await API.post("/wishlists", wishlistItem);
   return res.data;
 };
@@ -21,4 +21,4 @@ const clearWishlist = async (userId) => {
   await Promise.all(items.map(item => API.delete(`/wishlists/${item.id}`)));
 };
 
-export { getWishlist, addToWishlist, removeFromWishlist, clearWishlist };
+export { getWishlist, addToWishlistAPI, removeFromWishlist, clearWishlist };

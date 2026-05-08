@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 function Orders() {
-  const orders = useSelector((state) => state.orders.orders);
+  const orders = useSelector((state) => state?.orders.orders);
   const latestOrders = [...orders].reverse()
 
   return (

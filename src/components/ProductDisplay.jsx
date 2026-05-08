@@ -7,13 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 import { toggleWishlist } from "../redux/slices/whishlistSlice"
 import Footer from "./Footer";
+import { addToCartAPI, updateCartItem } from "../services/cartService";
+import { addToWishlistAPI, removeFromWishlist } from "../services/wishlistService";
 
 
 function ProductDisplay() {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const { id } = useParams();
-  const user = useSelector(state=>state.auth?.user)
+  const user = useSelector(state => state?.auth.user)
+  const cartItems = useSelector((s) => s?.cart.items)
 
   const [selectedSize, setSelectedSize] = useState(null);
 
@@ -26,41 +29,101 @@ function ProductDisplay() {
     (item) => String(item.id) === id
   );
 
+
   const wishlistItems = useSelector(
     (state) => state.wishlist.items
   );
 
-  const isLiked = wishlistItems.some(
-    (item) => item.id === product?.id
+  const isLiked = wishlistItems?.some(
+    (item) => item.productId === product?.id
   );
-  const handleWishlist = (e) => {
+  const handleWishlist = async (e) => {
     e.stopPropagation();
+
     if (!user) {
-      navigate("/login")
-    } else {
-      dispatch(toggleWishlist(product));
+      navigate("/login");
+      return;
     }
 
-  }
+    const existing = wishlistItems.find(
+      (i) => i.productId === product.id
+    );
+
+    if (existing) {
+      await removeFromWishlist(existing.id);
+
+      dispatch(toggleWishlist(existing));
+
+      return;
+    }
+
+
+    const { id, ...rest } = product;
+
+    const wishlistItem = {
+      ...rest,
+      productId: id,
+      userId: user.id,
+    };
+
+    const savedWishlist =
+      await addToWishlistAPI(wishlistItem);
+
+    dispatch(toggleWishlist(savedWishlist));
+  };
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>Error loading product</h1>;
   if (!product) return <h1>Product Not Found</h1>;
 
-const handleCart = () =>{
-  if(!user){
-    navigate('/login')
-  }else{
-    dispatch(addToCart(product))
+  const handleCart = async () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    const existing = cartItems.find(
+      (i) => i.productId === product.id
+    );
+
+
+    if (existing) {
+      const updatedItem = {
+        ...existing,
+        qty: existing.qty + 1,
+      };
+
+      await updateCartItem(existing.id, updatedItem);
+
+      dispatch(addToCart({
+        productId: existing.productId,
+        qty: 1,
+      }));
+
+      return;
+    }
+
+  
+    const { id, ...rest } = product;
+
+    const cartItem = {
+      ...rest,
+      productId: id,
+      userId: user.id,
+      qty: 1,
+    };
+
+    const savedCartItem =
+      await addToCartAPI(cartItem);
+
+    dispatch(addToCart(savedCartItem));
+  };
+  const handleBuy = () => {
+    if (!user) {
+      navigate("/login")
+    } else {
+      navigate("/payment")
+    }
   }
-}
-const handleBuy = () => {
-  if(!user){
-    navigate("/login")
-  }else{
-    navigate("/payment")
-  }
-}
-                    
 
   return (
     <>
@@ -161,7 +224,7 @@ const handleBuy = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

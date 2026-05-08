@@ -3,8 +3,8 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 import { resetCart } from "../redux/slices/cartSlice";
-import { resetWishlist } from "../redux/slices/whishlistSlice";
-import { resetOrders } from "../redux/slices/orderSlice";
+import { clearWishlist } from "../redux/slices/whishlistSlice";
+import { clearOrders } from "../redux/slices/orderSlice";
 import { getProducts } from "../services/productService";
 import { useQuery } from "@tanstack/react-query";
 
@@ -26,8 +26,8 @@ function Navbar() {
   function handleLogout() {
     dispatch(logout());
     dispatch(resetCart());
-    dispatch(resetWishlist());
-    dispatch(resetOrders());
+    dispatch(clearWishlist());
+    dispatch(clearOrders());
     navigate("/");
   }
   const { data = [] } = useQuery({
@@ -105,7 +105,7 @@ function Navbar() {
             onClick={() => navigate("/cart")}
           >
             🛒
-            {cartItems.length > 0 && (
+            {cartItems?.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 rounded-full">
                 {cartItems.length}
               </span>
@@ -121,7 +121,7 @@ function Navbar() {
           >
             Wishlist
 
-            {wishItems.length > 0 && (
+            {wishItems?.length > 0 && (
               <span className="absolute -top-2 -right-3 bg-red-500 text-xs px-2 rounded-full">
                 {wishItems.length}
               </span>

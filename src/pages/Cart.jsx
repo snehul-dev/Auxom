@@ -1,14 +1,48 @@
 import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../components/Navbar";
-import {increaseQty,decreaseQty,removeFromCart} from "../redux/slices/cartSlice";
+import { increaseQty, decreaseQty, removeFromCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Backbutton from "../components/Backbutton";
+import { removeFromCart as removeFromCartAPI, updateCartItem } from "../services/cartService";
 
 function Cart() {
-  const cartItems = useSelector((state) => state.cart.items);
+  const cartItems = useSelector((state) => state?.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleRemove = async (id) => {
+    await removeFromCartAPI(id);
+
+    dispatch(removeFromCart(id));
+  };
+  const handleIncrease = async (item) => {
+    const updatedItem = {
+      ...item,
+      qty: item.qty + 1,
+    };
+
+    await updateCartItem(item.id, updatedItem);
+
+    dispatch(increaseQty(item.id));
+  };
+
+  const handleDecrease = async (item) => {
+    if (item.qty > 1) {
+      const updatedItem = {
+        ...item,
+        qty: item.qty - 1,
+      };
+
+      await updateCartItem(item.id, updatedItem);
+
+      dispatch(decreaseQty(item.id));
+    } else {
+      await removeFromCartAPI(item.id);
+
+      dispatch(decreaseQty(item.id));
+    }
+  };
 
   const total = cartItems.reduce(
     (acc, item) => acc + item.price * item.qty,
@@ -18,7 +52,7 @@ function Cart() {
   return (
     <>
       <Navbar />
-      <Backbutton/>
+      <Backbutton />
       <div className="bg-gray-50 min-h-screen py-10 px-4">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 text-gray-800">
@@ -54,7 +88,7 @@ function Cart() {
                       <div className="flex items-center gap-3 mt-3">
                         <button
                           onClick={() =>
-                            dispatch(decreaseQty(item.productId))
+                            handleDecrease(item)
                           }
                           className="w-8 h-8 flex items-center justify-center border rounded-lg hover:bg-gray-100"
                         >
@@ -67,7 +101,7 @@ function Cart() {
 
                         <button
                           onClick={() =>
-                            dispatch(increaseQty(item.productId))
+                            handleIncrease(item)
                           }
                           className="w-8 h-8 flex items-center justify-center border rounded-lg hover:bg-gray-100"
                         >
@@ -77,9 +111,7 @@ function Cart() {
                     </div>
 
                     <button
-                      onClick={() =>
-                        dispatch(removeFromCart(item.productId))
-                      }
+                      onClick={() => handleRemove(item.id)}
                       className="text-red-500 hover:text-red-600 text-sm font-medium"
                     >
                       Remove
@@ -113,7 +145,7 @@ function Cart() {
           )}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
