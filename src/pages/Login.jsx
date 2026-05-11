@@ -42,7 +42,11 @@ function Login() {
         dispatch(setOrders(orderData))
 
         toast.success("Login successfully");
-        navigate("/");
+        if (user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/");
+        }
       } else {
         toast.error("Invalid credentials");
       }
@@ -135,8 +139,8 @@ function Login() {
           type="submit"
           disabled={mutation.isPending}
           className={`w-full py-3 rounded-full transition ${mutation.isPending
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#4fd1c5] hover:opacity-90"
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-[#4fd1c5] hover:opacity-90"
             }`}
         >
           {mutation.isPending ? "Logging in..." : "Login"}

@@ -43,7 +43,10 @@ function Register() {
         }
 
         const { confirmPassword, ...userData } = input
-        mutation.mutate(userData)
+        mutation.mutate({
+            ...userData,
+            role:"user"
+        })
     }
 
     const validate = () => {

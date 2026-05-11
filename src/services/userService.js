@@ -9,8 +9,12 @@ const registerUser = async (userData) => {
   return API.post("/users", userData)
 }
 const loginUser = async({email,password})=>{
-    let res = await API.get(`/users?email=${email}&password=${password}`)
-    return res.data
+    let res = await API.get(`/users?email=${email}`)
+    const users = res.data
+    if (users.length > 0 && users[0].password === password) {
+        return [users[0]]
+    }
+    return []
 }
 
 export { registerUser, loginUser};

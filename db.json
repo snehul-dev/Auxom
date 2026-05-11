@@ -1,18 +1,17 @@
 {
   "users": [
     {
-      "fullName": "snehul",
-      "email": "snehul02vv@gmail.com",
-      "password": "snehul123",
-      "wishlist": [],
-      "cart": [],
-      "orders": [],
-      "id": "YzOPAaxZ0H4"
+      "id": "admin1",
+      "fullName": "Snehul",
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "role": "admin"
     },
     {
       "fullName": "messi",
       "email": "messi@gmail.com",
       "password": "messi@123",
+      "role": "user",
       "id": "LRFOiJUjtro"
     },
     {
@@ -585,6 +584,24 @@
       "productId": "10",
       "userId": "2RW7Ayu8jTM",
       "id": "8k1OhPiTpLc"
+    },
+    {
+      "name": "Beige Relaxed Fit Tee",
+      "price": 1199,
+      "category": "T-Shirts",
+      "rating": 3.2,
+      "color": "Beige",
+      "image": "/images/tshirt4.jpg",
+      "InStock": true,
+      "description": [
+        "Color: Beige",
+        "Fit: Relaxed Fit",
+        "Fabric: Soft Cotton",
+        "Neck: Round Neck"
+      ],
+      "productId": "4",
+      "userId": "SzIOdpJB7ek",
+      "id": "jorr_NIG7MI"
     }
   ],
   "orders": [
@@ -848,6 +865,41 @@
         "pincode": "673507"
       },
       "id": "aaU2B0LJh28"
+    },
+    {
+      "userId": "SzIOdpJB7ek",
+      "items": [
+        {
+          "name": "Printed Street T-Shirt",
+          "price": 1099,
+          "category": "T-Shirts",
+          "rating": 3.5,
+          "color": "Faded Grey",
+          "image": "/images/tshirt3.jpg",
+          "InStock": true,
+          "description": [
+            "Color: Faded Grey",
+            "Fit: Relaxed Fit",
+            "Fabric: Cotton Blend",
+            "Pattern: Graphic Print"
+          ],
+          "productId": "3",
+          "userId": "SzIOdpJB7ek",
+          "qty": 1,
+          "id": "p4ohlRldokc"
+        }
+      ],
+      "total": 1099,
+      "method": "cod",
+      "date": "9/5/2026, 11:58:19 am",
+      "address": {
+        "name": "snehul v v",
+        "phone": "08113858237",
+        "address": "arya snehul",
+        "city": "Calicut",
+        "pincode": "673507"
+      },
+      "id": "txF5tLp37Zc"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -8,7 +8,7 @@ function Trending() {
     queryFn: getProducts,
   });
 
-   const trend = data.sort((a,b)=>a.rating-b.rating)
+   const trend = [...data]?.sort((a,b)=>b.rating-a.rating)
   const trending = trend.slice(0,4)
   return (
     <div className="px-6 md:px-10">
