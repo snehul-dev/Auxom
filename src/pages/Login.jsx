@@ -4,7 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "../services/userService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import { getCart } from "../services/cartService";
 import { getWishlist } from "../services/wishlistService";
 import { getOrders } from "../services/orderService";
@@ -14,54 +15,88 @@ import { setCart } from "../redux/slices/cartSlice";
 import { setOrders } from "../redux/slices/orderSlice";
 import { setWishlist } from "../redux/slices/whishlistSlice";
 
-
 function Login() {
+
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.auth.user)
+
   const [error, setError] = useState({});
+
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
 
   const mutation = useMutation({
+
     mutationFn: loginUser,
 
     onSuccess: async (data) => {
+
       if (data.length > 0) {
-        const user = data[0];
 
-        dispatch(login(user));
-        const cartData = await getCart(user.id)
-        const wishlistData = await getWishlist(user.id)
-        const orderData = await getOrders(user.id)
+        const loggedInUser = data[0];
 
-        dispatch(setCart(cartData))
-        dispatch(setWishlist(wishlistData))
-        dispatch(setOrders(orderData))
+        const savedProfileImage =localStorage.getItem("profileImage" );
+
+        const updatedUser = {
+          ...loggedInUser,
+          profileImage:savedProfileImage || "",
+        };
+        localStorage.setItem("user",JSON.stringify(updatedUser));
+
+        dispatch(login(updatedUser));
+
+        const cartData = await getCart(updatedUser.id);
+
+        const wishlistData = await getWishlist(updatedUser.id);
+
+        const orderData = await getOrders(updatedUser.id);
+
+        dispatch(setCart(cartData));
+
+        dispatch( setWishlist(wishlistData) );
+
+        dispatch(setOrders(orderData));
+
+        if (updatedUser.isBlocked) {
+
+          toast.error( "Your account is blocked");
+            return;
+        }
 
         toast.success("Login successfully");
-        if (user.role === "admin") {
-          navigate("/admin/dashboard");
+
+        if (updatedUser.role === "admin" ) {
+
+          navigate(
+            "/admin/dashboard"
+          );
+
         } else {
+
           navigate("/");
         }
+
       } else {
-        toast.error("Invalid credentials");
+       toast.error( "Invalid credentials");
       }
     },
 
     onError: () => {
+
       toast.error("Login Failed");
     },
   });
 
   function handleSubmit(e) {
+
     e.preventDefault();
 
     const validateErrors = validate();
-    if (Object.keys(validateErrors).length > 0) {
+
+    if (Object.keys(validateErrors).length > 0){
       setError(validateErrors);
       return;
     }
@@ -73,24 +108,30 @@ function Login() {
   }
 
   const validate = () => {
+
     const err = {};
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!input.email) {
+
       err.email = "Email required";
-    } else if (!emailRegex.test(input.email)) {
+
+    } else if (!emailRegex.test(input.email) ) {
+
       err.email = "Invalid email format";
     }
 
     if (!input.password) {
       err.password = "Password required";
     }
-
     return err;
   };
 
   function handleInput(e) {
+
     const { value, name } = e.target;
+
     setInput((prev) => ({
       ...prev,
       [name]: value,
@@ -98,12 +139,15 @@ function Login() {
   }
 
   return (
+
     <div
       className="min-h-screen bg-cover bg-center flex items-center justify-center"
       style={{
-        backgroundImage: `url(${authBackground})`,
+        backgroundImage:
+          `url(${authBackground})`,
       }}
     >
+
       <div className="absolute inset-0 bg-black/50"></div>
 
       <form
@@ -111,7 +155,10 @@ function Login() {
         noValidate
         className="relative z-10 w-87.5 text-center text-white"
       >
-        <h1 className="text-2xl tracking-widest mb-6">Login</h1>
+
+        <h1 className="text-2xl tracking-widest mb-6">
+          Login
+        </h1>
 
         <input
           type="email"
@@ -121,9 +168,12 @@ function Login() {
           onChange={handleInput}
           className="w-full mb-2 px-4 py-3 rounded-full bg-white/20 placeholder-white border border-white/30 backdrop-blur-md focus:outline-none"
         />
-        <p className="text-red-300 text-sm mb-2">{error.email}</p>
 
-        {/* PASSWORD */}
+        <p className="text-red-300 text-sm mb-2">
+          {error.email}
+        </p>
+
+
         <input
           type="password"
           name="password"
@@ -132,31 +182,45 @@ function Login() {
           onChange={handleInput}
           className="w-full mb-2 px-4 py-3 rounded-full bg-white/20 placeholder-white border border-white/30 backdrop-blur-md focus:outline-none"
         />
-        <p className="text-red-300 text-sm mb-3">{error.password}</p>
 
-        {/* BUTTON */}
+        <p className="text-red-300 text-sm mb-3">
+          {error.password}
+        </p>
+
+
         <button
           type="submit"
           disabled={mutation.isPending}
           className={`w-full py-3 rounded-full transition ${mutation.isPending
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-[#4fd1c5] hover:opacity-90"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#4fd1c5] hover:opacity-90"
             }`}
         >
-          {mutation.isPending ? "Logging in..." : "Login"}
+
+          {mutation.isPending
+            ? "Logging in..."
+            : "Login"}
+
         </button>
 
-        {/* REGISTER */}
+
         <p className="text-sm mt-4 text-gray-300">
+
           Don’t have an account?{" "}
+
           <span
             className="text-white cursor-pointer underline"
-            onClick={() => navigate("/register")}
+            onClick={() =>
+              navigate("/register")
+            }
           >
             Register
           </span>
+
         </p>
+
       </form>
+
     </div>
   );
 }

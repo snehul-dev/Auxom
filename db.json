@@ -5,113 +5,51 @@
       "fullName": "Snehul",
       "email": "admin@gmail.com",
       "password": "123456",
-      "role": "admin"
+      "role": "admin",
+      "isBlocked": false
     },
     {
       "fullName": "messi",
       "email": "messi@gmail.com",
       "password": "messi@123",
       "role": "user",
+      "isBlocked": true,
       "id": "LRFOiJUjtro"
     },
     {
       "fullName": "boopathi",
       "email": "boopathi@gmail.com",
       "password": "boopathi",
+      "role": "user",
+      "isBlocked": false,
       "id": "GnRNTFeeBOU"
-    },
-    {
-      "fullName": "rafeef",
-      "email": "rafeef@gmail.com",
-      "password": "rafeef123",
-      "id": "K6cJAOrVk68"
-    },
-    {
-      "fullName": "sneha",
-      "email": "sneha@gmail.com",
-      "password": "sneha123",
-      "id": "h7FbqnHLLjM"
-    },
-    {
-      "fullName": "aswand",
-      "email": "aswand@gmail.com",
-      "password": "aswand@123",
-      "id": "YEXRkh2uQG4",
-      "orders": [
-        {
-          "id": 1777648648004,
-          "items": [
-            {
-              "productId": "2",
-              "name": "White Minimal T-Shirt",
-              "price": 899,
-              "image": "/images/tshirt2.jpg",
-              "qty": 1
-            }
-          ],
-          "total": 899,
-          "method": "cod",
-          "date": "1/5/2026, 8:47:28 pm"
-        },
-        {
-          "id": 1777648876937,
-          "items": [
-            {
-              "productId": "11",
-              "name": "Denim Casual Shirt",
-              "price": 1799,
-              "image": "/images/shirt5.jpg",
-              "qty": 1
-            }
-          ],
-          "total": 1799,
-          "method": "cod",
-          "date": "1/5/2026, 8:51:16 pm"
-        }
-      ]
     },
     {
       "fullName": "Abeesh",
       "email": "abeesh@gmail.com",
       "password": "abeesh123",
+      "role": "user",
+      "isBlocked": false,
       "id": "FTUWqLI202I"
-    },
-    {
-      "fullName": "rono",
-      "email": "rono@gmail.com",
-      "password": "rono123",
-      "id": "ZV0bN6MMrjg"
     },
     {
       "fullName": "virat",
       "email": "virat@gmail.com",
       "password": "virat123",
+      "role": "user",
+      "isBlocked": false,
       "id": "SzIOdpJB7ek"
     },
     {
       "fullName": "Luke",
       "email": "luke@gmail.com",
       "password": "luke123",
+      "role": "user",
+      "isBlocked": true,
       "id": "2RW7Ayu8jTM"
     }
   ],
   "products": [
-    {
-      "id": "1",
-      "name": "Black Oversized T-Shirt",
-      "price": 999,
-      "category": "T-Shirts",
-      "rating": 4.5,
-      "color": "Black",
-      "image": "/images/tshirt1.jpg",
-      "InStock": true,
-      "description": [
-        "Color: Black",
-        "Fit: Oversized Fit",
-        "Fabric: Soft Cotton",
-        "Neck: Round Neck"
-      ]
-    },
     {
       "id": "2",
       "name": "White Minimal T-Shirt",
@@ -241,23 +179,6 @@
         "Fit: Slim Fit",
         "Fabric: Cotton",
         "Pattern: Striped"
-      ]
-    },
-    {
-      "id": "10",
-      "name": "Casual Check Shirt",
-      "price": 1399,
-      "category": "Shirts",
-      "type": "Casual",
-      "rating": 4.9,
-      "color": "Blue",
-      "InStock": false,
-      "image": "/images/shirt4.jpg",
-      "description": [
-        "Color: Blue Check",
-        "Fit: Regular Fit",
-        "Fabric: Cotton",
-        "Pattern: Check"
       ]
     },
     {
@@ -429,6 +350,51 @@
         "Fabric: Denim",
         "Style: Casual"
       ]
+    },
+    {
+      "name": "Black Oversized T-Shirt",
+      "price": "899",
+      "category": "T-Shirts",
+      "image": "/images/tshirt1.jpg",
+      "rating": 4.5,
+      "color": "Black",
+      "InStock": true,
+      "description": [
+        "Category: T-Shirts",
+        "Premium Quality",
+        "Comfort Fit",
+        "Trending Style"
+      ],
+      "id": "4VinIiqSpc4"
+    },
+    {
+      "name": "Red Minimal T-Shirt",
+      "price": "899",
+      "category": "T-Shirts",
+      "color": "Red",
+      "description": [
+        "100% Premium Cotton",
+        "Soft & Breathable Fabric",
+        "Durable Stitching",
+        "Comfortable for All-Day Wear"
+      ],
+      "image": "/images/tshirtred.jpeg",
+      "rating": 4.5,
+      "InStock": true,
+      "id": "wXeriNSEr3k"
+    },
+    {
+      "name": "somehting",
+      "price": "1555",
+      "category": "Shirt",
+      "color": "yellow",
+      "description": [
+        "something related to dressi"
+      ],
+      "image": "/images/image.png",
+      "rating": 4.5,
+      "InStock": true,
+      "id": "gXZm4aNPXoc"
     }
   ],
   "carts": [
@@ -524,7 +490,7 @@
         "Fabric: Soft Cotton",
         "Neck: Round Neck"
       ],
-      "productId": "1",
+      "productId": null,
       "userId": "2RW7Ayu8jTM",
       "id": "zCyxDQaF-eU"
     },
@@ -581,7 +547,7 @@
         "Fabric: Cotton",
         "Pattern: Check"
       ],
-      "productId": "10",
+      "productId": null,
       "userId": "2RW7Ayu8jTM",
       "id": "8k1OhPiTpLc"
     },
@@ -670,6 +636,7 @@
       ],
       "total": 9994,
       "method": "cod",
+      "status": "Delivered",
       "date": "8/5/2026, 3:36:26 pm",
       "address": {
         "name": "snehul v v",
@@ -726,6 +693,7 @@
       ],
       "total": 3898,
       "method": "cod",
+      "status": "Delivered",
       "date": "8/5/2026, 3:50:08 pm",
       "address": {
         "name": "snehul v v",
@@ -801,6 +769,7 @@
       ],
       "total": 4297,
       "method": "cod",
+      "status": "Delivered",
       "date": "8/5/2026, 7:21:45 pm",
       "address": {
         "name": "snehul v v",
@@ -856,6 +825,7 @@
       ],
       "total": 2998,
       "method": "cod",
+      "status": "Delivered",
       "date": "8/5/2026, 8:03:48 pm",
       "address": {
         "name": "snehul v v",
@@ -891,6 +861,7 @@
       ],
       "total": 1099,
       "method": "cod",
+      "status": "Delivered",
       "date": "9/5/2026, 11:58:19 am",
       "address": {
         "name": "snehul v v",

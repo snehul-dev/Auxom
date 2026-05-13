@@ -6,10 +6,7 @@ const getAdminOrders = async () => {
   return res.data;
 };
 
-const updateOrder = async (
-  id,
-  updatedOrder
-) => {
+const updateOrder = async (id,updatedOrder) => {
   const res = await API.put(
     `/orders/${id}`,
     updatedOrder

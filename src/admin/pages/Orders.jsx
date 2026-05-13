@@ -1,11 +1,51 @@
 import AdminLayout from "../components/AdminLayout";
-import { useSelector } from "react-redux";
+
+import {
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+
+import {
+  getAdminOrders,
+  updateOrder,
+} from "../services/adminOrders";
 
 function Orders() {
 
-  const orders = useSelector(
-    (state) => state.orders.orders
-  );
+  const queryClient =
+    useQueryClient();
+
+  const { data: orders = [] } =
+    useQuery({
+      queryKey: ["adminOrders"],
+      queryFn: getAdminOrders,
+    });
+
+  // STATUS CHANGE
+  const handleStatusChange =
+    async (order, status) => {
+
+      try {
+
+        const updatedOrder = {
+          ...order,
+          status,
+        };
+
+        await updateOrder(
+          order.id,
+          updatedOrder
+        );
+
+        queryClient.invalidateQueries(
+          ["adminOrders"]
+        );
+
+      } catch (error) {
+
+        console.log(error);
+      }
+    };
 
   return (
     <AdminLayout>
@@ -14,15 +54,24 @@ function Orders() {
         Orders
       </h1>
 
-      <div className="bg-white rounded-2xl shadow overflow-x-auto">
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
         <table className="w-full">
 
           <thead className="bg-gray-100">
+
             <tr>
 
               <th className="p-4 text-left">
                 Order ID
+              </th>
+
+              <th className="p-4 text-left">
+                User Name
+              </th>
+
+              <th className="p-4 text-left">
+                Items
               </th>
 
               <th className="p-4 text-left">
@@ -37,18 +86,37 @@ function Orders() {
                 Date
               </th>
 
+              <th className="p-4 text-left">
+                Status
+              </th>
+
             </tr>
+
           </thead>
 
           <tbody>
 
-            {orders.map((order) => (
+            {orders.map((order, index) => (
+
               <tr
                 key={order.id}
-                className="border-t"
+                className={`hover:bg-gray-50 transition ${
+                  index !== orders.length - 1
+                    ? "shadow-sm"
+                    : ""
+                }`}
               >
+
                 <td className="p-4">
                   {order.id}
+                </td>
+
+                <td className="p-4">
+                  {order.address.name}
+                </td>
+
+                <td className="p-4">
+                  {order.items.length}
                 </td>
 
                 <td className="p-4">
@@ -62,6 +130,43 @@ function Orders() {
                 <td className="p-4">
                   {order.date}
                 </td>
+
+                <td className="p-4">
+
+                  <select
+                    value={
+                      order.status ||
+                      "Pending"
+                    }
+                    onChange={(e) =>
+                      handleStatusChange(
+                        order,
+                        e.target.value
+                      )
+                    }
+                    className="border px-3 py-1 rounded"
+                  >
+
+                    <option value="Pending">
+                      Pending
+                    </option>
+
+                    <option value="Shipped">
+                      Shipped
+                    </option>
+
+                    <option value="Delivered">
+                      Delivered
+                    </option>
+
+                    <option value="Cancelled">
+                      Cancelled
+                    </option>
+
+                  </select>
+
+                </td>
+
               </tr>
             ))}
 
