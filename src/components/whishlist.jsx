@@ -7,6 +7,7 @@ import Backbutton from "./Backbutton";
 import toast from "react-hot-toast";
 import { addToCartAPI, updateCartItem } from "../services/cartService";
 import { useNavigate } from "react-router-dom";
+import {removeFromWishlist as removeWishlistApi} from "../services/wishlistService"
 
 function Wishlist() {
   const navigate = useNavigate()
@@ -58,6 +59,10 @@ function Wishlist() {
 
     dispatch(addToCart(savedCartItem));
   };
+  const handleWhishlistRemove = async(id)=>{
+    await removeWishlistApi(id)
+    dispatch(removeFromWishlist(id))
+  }
 
   return (
     <>
@@ -131,9 +136,7 @@ function Wishlist() {
 
 
                     <button
-                      onClick={() =>
-                        dispatch(removeFromWishlist(item.id))
-                      }
+                      onClick={()=>handleWhishlistRemove(item.id) }
                       className="flex-1 border border-red-500 text-red-500 py-2 rounded-lg hover:bg-red-50"
                     >
                       Remove

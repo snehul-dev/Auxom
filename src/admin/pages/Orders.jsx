@@ -1,30 +1,19 @@
 import AdminLayout from "../components/AdminLayout";
-
-import {
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-
-import {
-  getAdminOrders,
-  updateOrder,
-} from "../services/adminOrders";
+import { useQuery,useQueryClient,} from "@tanstack/react-query";
+import {getAdminOrders,updateOrder,} from "../services/adminOrders";
 
 function Orders() {
 
-  const queryClient =
-    useQueryClient();
+  const queryClient = useQueryClient();
 
-  const { data: orders = [] } =
-    useQuery({
+  const { data: orders = [] } = useQuery({
       queryKey: ["adminOrders"],
       queryFn: getAdminOrders,
     });
 
-  // STATUS CHANGE
-  const handleStatusChange =
-    async (order, status) => {
+  const handleStatusChange =async (order, status) => {
 
+    
       try {
 
         const updatedOrder = {
@@ -32,14 +21,9 @@ function Orders() {
           status,
         };
 
-        await updateOrder(
-          order.id,
-          updatedOrder
-        );
+        await updateOrder( order.id, updatedOrder);
 
-        queryClient.invalidateQueries(
-          ["adminOrders"]
-        );
+        queryClient.invalidateQueries(["adminOrders"] );
 
       } catch (error) {
 
@@ -97,6 +81,7 @@ function Orders() {
           <tbody>
 
             {orders.map((order, index) => (
+              
 
               <tr
                 key={order.id}
@@ -134,35 +119,16 @@ function Orders() {
                 <td className="p-4">
 
                   <select
-                    value={
-                      order.status ||
-                      "Pending"
-                    }
+                    value={ order.status || "Pending" }
                     onChange={(e) =>
-                      handleStatusChange(
-                        order,
-                        e.target.value
-                      )
+                      handleStatusChange( order,e.target.value )
                     }
                     className="border px-3 py-1 rounded"
                   >
-
-                    <option value="Pending">
-                      Pending
-                    </option>
-
-                    <option value="Shipped">
-                      Shipped
-                    </option>
-
-                    <option value="Delivered">
-                      Delivered
-                    </option>
-
-                    <option value="Cancelled">
-                      Cancelled
-                    </option>
-
+                    <option value="Pending">Pending</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled"> Cancelled</option>
                   </select>
 
                 </td>

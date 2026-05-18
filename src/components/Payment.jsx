@@ -13,7 +13,7 @@ function Payment() {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((s)=>s?.auth.user)
+  const user = useSelector((s) => s?.auth.user)
   const [method, setMethod] = useState("cod");
 
   const [form, setForm] = useState({
@@ -59,35 +59,104 @@ function Payment() {
     form.pincode;
 
   async function handlePayment() {
+
     const errors = validate();
 
     if (Object.keys(errors).length > 0) {
       setError(errors);
       return;
     }
-    const newOrder = {
-      userId:user.id,
-      items: cartItems,
-      total,
-      method,
-      date: new Date().toLocaleString(),
-      address: form,
+
+    if (method === "cod") {
+
+      const newOrder = {
+        userId: user.id,
+        items: cartItems,
+        total,
+        method,
+        date: new Date().toLocaleString(),
+        address: form,
+      };
+
+      const ordersdb = await addOrderAPI(newOrder);
+
+      dispatch(addOrder(ordersdb));
+
+      await clearCartAPI(user.id);
+
+      dispatch(clearCart());
+
+      navigate("/success");
+
+      return;
+    }
+
+    const options = {
+
+      key: "rzp_test_RobBska9vZTYDq",
+
+      amount: total * 100,
+
+      currency: "INR",
+
+      name: "AUXOM",
+
+      description: "Test Payment",
+
+      handler: async function (response) {
+
+        console.log(response);
+
+        const newOrder = {
+
+          userId: user.id,
+
+          items: cartItems,
+
+          total,
+
+          method: "online",
+
+          paymentId:
+            response.razorpay_payment_id,
+
+          date: new Date().toLocaleString(),
+
+          address: form,
+        };
+
+        const ordersdb =
+          await addOrderAPI(newOrder);
+
+        dispatch(addOrder(ordersdb));
+
+        await clearCartAPI(user.id);
+
+        dispatch(clearCart());
+
+        navigate("/success");
+      },
+
+      prefill: {
+        name: form.name,
+        contact: form.phone,
+      },
+
+      theme: {
+        color: "#000000",
+      },
     };
- 
 
+    const razorpay =
+      new window.Razorpay(options);
 
-    const ordersdb = await addOrderAPI(newOrder)
-
-    dispatch(addOrder(ordersdb));
-    await clearCartAPI(user.id)
-    dispatch(clearCart());
-    navigate("/success");
+    razorpay.open();
   }
 
   return (
     <>
       <Navbar />
-      <Backbutton/>
+      <Backbutton />
       <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
         <div className="w-full max-w-5xl grid md:grid-cols-2 gap-6">
 
@@ -97,7 +166,7 @@ function Payment() {
             </h2>
 
             <div className="space-y-3">
-              {["name","phone","address","city","pincode"].map((field) => (
+              {["name", "phone", "address", "city", "pincode"].map((field) => (
                 <div key={field}>
                   <input
                     type="text"
@@ -159,18 +228,17 @@ function Payment() {
             <button
               onClick={handlePayment}
               disabled={!isFormValid}
-              className={`mt-6 w-full py-3 rounded-xl text-white ${
-                isFormValid
+              className={`mt-6 w-full py-3 rounded-xl text-white ${isFormValid
                   ? "bg-black hover:bg-gray-900"
                   : "bg-gray-400 cursor-not-allowed"
-              }`}
+                }`}
             >
               Place Order
             </button>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

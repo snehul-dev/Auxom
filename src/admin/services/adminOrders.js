@@ -7,11 +7,7 @@ const getAdminOrders = async () => {
 };
 
 const updateOrder = async (id,updatedOrder) => {
-  const res = await API.put(
-    `/orders/${id}`,
-    updatedOrder
-  );
-
+  const res = await API.put( `/orders/${id}`,updatedOrder);
   return res.data;
 };
 

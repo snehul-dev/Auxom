@@ -120,9 +120,7 @@ function Products() {
 
   const currentProducts = reversedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  const totalPages = Math.ceil(
-    products.length / productsPerPage
-  );
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   return (
     <AdminLayout>

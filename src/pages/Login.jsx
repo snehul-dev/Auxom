@@ -70,9 +70,7 @@ function Login() {
 
         if (updatedUser.role === "admin" ) {
 
-          navigate(
-            "/admin/dashboard"
-          );
+          navigate( "/admin/dashboard");
 
         } else {
 

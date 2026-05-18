@@ -13,14 +13,9 @@ const authSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(action.payload));
     },
     logout: (state) => {
-
       const existingUser = JSON.parse(localStorage.getItem("user"));
-
       localStorage.setItem("profileImage",existingUser?.profileImage || "");
-
-      // REMOVE USER
-      localStorage.removeItem("user");
-
+      localStorage.removeItem("user"); 
       state.user = null;
     },
     updateUser: (state, action) => {

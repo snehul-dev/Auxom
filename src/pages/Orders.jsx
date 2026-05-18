@@ -6,6 +6,7 @@ function Orders() {
   const orders = useSelector((state) => state?.orders.orders);
   const latestOrders = [...orders].reverse()
 
+
   return (
     <>
       <Navbar />

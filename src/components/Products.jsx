@@ -10,31 +10,19 @@ import Backbutton from "./Backbutton";
 function Products() {
   const [searchParams] = useSearchParams();
 
-  const category =
-    searchParams.get("category") || "all";
+  const category = searchParams.get("category") || "all";
+  const searchQuery = searchParams.get("search") || "";
 
-  const searchQuery =
-    searchParams.get("search") || "";
+  const [pricefilter, setPriceFilter] = useState("");
+  const [sorted, setSorted] = useState("");
+  const [ratingFilter, setRatingFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
 
-  const [pricefilter, setPriceFilter] =
-    useState("");
-
-  const [sorted, setSorted] =
-    useState("");
-
-  const [ratingFilter, setRatingFilter] =
-    useState("");
-
-  const [categoryFilter, setCategoryFilter] =
-    useState("");
-
-  const [currentPage, setCurrentPage] =
-    useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const productsPerPage = 9;
 
-  const { data, isLoading, isError } =
-    useQuery({
+  const { data, isLoading, isError } = useQuery({
       queryKey: ["products"],
       queryFn: getProducts,
     });

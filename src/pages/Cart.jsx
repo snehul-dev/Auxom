@@ -71,6 +71,7 @@ function Cart() {
                     key={item.productId}
                     className="flex items-center gap-5 bg-white p-5 rounded-2xl shadow hover:shadow-md transition"
                   >
+                    
                     <img
                       src={item.image}
                       alt={item.name}

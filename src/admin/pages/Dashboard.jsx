@@ -4,8 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getAdminOrders } from "../services/adminOrders";
 
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
+  CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,
@@ -23,28 +24,66 @@ function Dashboard() {
     queryFn: getAdminOrders,
   });
 
-  const products = useSelector( (state) => state.products?.items || []);
-  const users = useSelector((state) => state.users?.items || []);
+  const products = useSelector(
+    (state) => state.products?.items || []
+  );
 
-  const revenue = orders.reduce((acc, order) => acc + order.total, 0);
+  const users = useSelector(
+    (state) => state.users?.items || []
+  );
 
-  const categoryMap = {};
 
-  products.forEach((product) => {
-    const category = product.category;
+  const revenue = orders.reduce(
+    (acc, order) => acc + order.total,
+    0
+  );
 
-    if (categoryMap[category]) {
-      categoryMap[category] += 1;
+
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+
+
+  const monthlySalesMap = {};
+
+  orders.forEach((order) => {
+
+    const date = new Date(order.date);
+
+    const month = months[date.getMonth()];
+
+    if (monthlySalesMap[month]) {
+
+      monthlySalesMap[month] += Number(order.total);
+
     } else {
-      categoryMap[category] = 1;
+
+      monthlySalesMap[month] = Number(order.total);
     }
+
   });
 
-  const categoryData = Object.keys(categoryMap).map((key) => ({
-      name: key,
-      value: categoryMap[key],
-    })
-  );
+
+  const salesData = months.map((month) => ({
+    month,
+    sales: monthlySalesMap[month] || 0,
+  }));
+
+
+
+  // PIE CHART DATA
 
   const pieData = [
     {
@@ -62,13 +101,6 @@ function Dashboard() {
   ];
 
 
-  const BAR_COLORS = [
-    "#3B82F6",
-    "#10B981",
-    "#F59E0B",
-    "#EF4444",
-    "#8B5CF6",
-  ];
 
   const PIE_COLORS = [
     "#06B6D4",
@@ -76,16 +108,21 @@ function Dashboard() {
     "#10B981",
   ];
 
+
+
   return (
+
     <AdminLayout>
 
       <h1 className="text-3xl font-bold mb-8">
         Dashboard
       </h1>
 
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
         <div className="bg-white p-6 rounded-2xl shadow">
+
           <h2 className="text-gray-500">
             Total Products
           </h2>
@@ -93,9 +130,13 @@ function Dashboard() {
           <p className="text-3xl font-bold mt-2">
             {products.length}
           </p>
+
         </div>
 
+
+
         <div className="bg-white p-6 rounded-2xl shadow">
+
           <h2 className="text-gray-500">
             Total Orders
           </h2>
@@ -103,9 +144,13 @@ function Dashboard() {
           <p className="text-3xl font-bold mt-2">
             {orders.length}
           </p>
+
         </div>
 
+
+
         <div className="bg-white p-6 rounded-2xl shadow">
+
           <h2 className="text-gray-500">
             Total Users
           </h2>
@@ -113,9 +158,13 @@ function Dashboard() {
           <p className="text-3xl font-bold mt-2">
             {users.length}
           </p>
+
         </div>
 
+
+
         <div className="bg-white p-6 rounded-2xl shadow">
+
           <h2 className="text-gray-500">
             Revenue
           </h2>
@@ -123,57 +172,46 @@ function Dashboard() {
           <p className="text-3xl font-bold mt-2">
             ₹{revenue}
           </p>
+
         </div>
 
       </div>
 
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
 
- {/* barchart */}
         <div className="bg-white p-6 rounded-2xl shadow">
 
           <h2 className="text-xl font-semibold mb-4">
-            Products Category
+            Monthly Sales Report
           </h2>
 
           <ResponsiveContainer
             width="100%"
             height={300}
           >
-            <BarChart data={categoryData}>
 
-              <XAxis dataKey="name" />
+            <LineChart data={salesData}>
+
+              <CartesianGrid strokeDasharray="3 3" />
+
+              <XAxis dataKey="month" />
 
               <YAxis />
 
               <Tooltip />
 
-              <Bar
-                dataKey="value"
-                fill="#10B981"
-                radius={[10, 10, 0, 0]}
-              >
-                {categoryData.map(
-                  (entry, index) => (
-                    <Cell
-                      key={index}
-                      fill={
-                        BAR_COLORS[
-                        index %
-                        BAR_COLORS.length
-                        ]
-                      }
-                    />
-                  )
-                )}
-              </Bar>
+              <Line
+                type="monotone"
+                dataKey="sales"
+                stroke="#3B82F6"
+                strokeWidth={3}
+              />
 
-            </BarChart>
+            </LineChart>
+
           </ResponsiveContainer>
-        </div>
 
-        {/* PIE CHART */}
+        </div>
 
         <div className="bg-white p-6 rounded-2xl shadow">
 
@@ -185,6 +223,7 @@ function Dashboard() {
             width="100%"
             height={300}
           >
+
             <PieChart>
 
               <Pie
@@ -195,19 +234,20 @@ function Dashboard() {
                 dataKey="value"
                 label
               >
-                {pieData.map(
-                  (entry, index) => (
-                    <Cell
-                      key={index}
-                      fill={
-                        PIE_COLORS[
-                        index %
-                        PIE_COLORS.length
-                        ]
-                      }
-                    />
-                  )
-                )}
+
+                {pieData.map((entry, index) => (
+
+                  <Cell
+                    key={index}
+                    fill={
+                      PIE_COLORS[
+                      index % PIE_COLORS.length
+                      ]
+                    }
+                  />
+
+                ))}
+
               </Pie>
 
               <Tooltip />
@@ -215,12 +255,15 @@ function Dashboard() {
               <Legend />
 
             </PieChart>
+
           </ResponsiveContainer>
+
         </div>
 
       </div>
 
     </AdminLayout>
+
   );
 }
 

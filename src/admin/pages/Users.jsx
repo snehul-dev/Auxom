@@ -1,44 +1,23 @@
 import AdminLayout from "../components/AdminLayout";
-
-import {
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-
-import {
-  getUsers,
-  updateUser,
-} from "../services/adminUserService";
+import {useQuery, useQueryClient,} from "@tanstack/react-query";
+import {getUsers,updateUser} from "../services/adminUserService";
 
 function Users() {
 
-  const queryClient =
-    useQueryClient();
+  const queryClient = useQueryClient();
 
-  const {
-    data: users = [],
-  } = useQuery({
+  const {data: users = [],} = useQuery({
     queryKey: ["users"],
     queryFn: getUsers,
   });
 
-  // BLOCK / UNBLOCK
-  const handleToggleStatus =
-    async (user) => {
-
+  const handleToggleStatus = async (user) => {
       try {
-
         const updatedUser = {
           ...user,
+          isBlocked: !user.isBlocked,};
 
-          isBlocked:
-            !user.isBlocked,
-        };
-
-        await updateUser(
-          user.id,
-          updatedUser
-        );
+        await updateUser( user.id, updatedUser);
 
         queryClient.invalidateQueries({
           queryKey: ["users"],
@@ -102,9 +81,7 @@ function Users() {
                   <div className="flex justify-center">
 
                     <button
-                      onClick={() =>
-                        handleToggleStatus(user)
-                      }
+                      onClick={() => handleToggleStatus(user)}
                       className={`px-5 py-2 rounded-lg text-white font-medium shadow-md transition ${
                         user.isBlocked
                           ? "bg-red-500 hover:bg-red-600"
