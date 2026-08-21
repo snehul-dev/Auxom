@@ -37,7 +37,7 @@
       "email": "virat@gmail.com",
       "password": "virat123",
       "role": "user",
-      "isBlocked": true,
+      "isBlocked": false,
       "id": "SzIOdpJB7ek"
     },
     {
@@ -386,23 +386,83 @@
   ],
   "carts": [
     {
-      "name": "Classic Grey T-Shirt",
-      "price": 799,
-      "category": "T-Shirts",
+      "name": "Slim Fit Formal Pants",
+      "price": 2099,
+      "category": "Pants",
+      "type": "Formal",
       "rating": 4.8,
-      "color": "Grey",
-      "image": "/images/tshirt6.jpg",
+      "color": "Deep Olive Green",
+      "image": "/images/pants3.jpg",
       "InStock": true,
       "description": [
-        "Color: Grey",
+        "Color: Deep Olive Green",
+        "Fit: Slim Fit",
+        "Fabric: Cotton Blend",
+        "Style: Formal"
+      ],
+      "productId": "15",
+      "userId": "admin1",
+      "qty": 2,
+      "id": "tkRvXScElaM"
+    },
+    {
+      "name": "White Minimal T-Shirt",
+      "price": 899,
+      "category": "T-Shirts",
+      "rating": 4.2,
+      "color": "White",
+      "image": "/images/tshirt2.jpg",
+      "InStock": true,
+      "description": [
+        "Color: White",
         "Fit: Regular Fit",
-        "Fabric: Soft Cotton",
+        "Fabric: 100% Cotton",
         "Neck: Round Neck"
       ],
-      "productId": "6",
-      "userId": "admin1",
+      "productId": "92_QeNIBjEY",
+      "userId": "YzOPAaxZ0H4",
       "qty": 1,
-      "id": "inDofoMnNo0"
+      "id": "4peXa6p-8hs"
+    },
+    {
+      "name": "Striped Office Shirt",
+      "price": 1699,
+      "category": "Shirts",
+      "type": "Formal",
+      "rating": 4.3,
+      "color": "Blue & White",
+      "image": "/images/shirt3.jpg",
+      "InStock": true,
+      "description": [
+        "Color: Blue & White Stripes",
+        "Fit: Slim Fit",
+        "Fabric: Cotton",
+        "Pattern: Striped"
+      ],
+      "productId": "9",
+      "userId": "LRFOiJUjtro",
+      "qty": 2,
+      "id": "IeKFMIliAgQ"
+    },
+    {
+      "name": "White Formal Shirt",
+      "price": 1499,
+      "category": "Shirts",
+      "type": "Formal",
+      "rating": 4.4,
+      "color": "White",
+      "image": "/images/shirt1.jpg",
+      "InStock": true,
+      "description": [
+        "Color: White",
+        "Fit: Slim Fit",
+        "Fabric: Cotton",
+        "Style: Formal"
+      ],
+      "productId": "OVHhYWd-DTs",
+      "userId": "LRFOiJUjtro",
+      "qty": 1,
+      "id": "gdzV3J7olZk"
     }
   ],
   "wishlists": [
@@ -572,6 +632,62 @@
       "productId": "15",
       "userId": "admin1",
       "id": "NDK2iVy3CaI"
+    },
+    {
+      "name": "Baggy Street Cargo",
+      "price": 2199,
+      "category": "Pants",
+      "type": "Baggy",
+      "rating": 4.3,
+      "color": "Light Olive Green",
+      "image": "/images/pants4.jpg",
+      "InStock": false,
+      "description": [
+        "Color: Light Olive Green",
+        "Fit: Baggy Fit",
+        "Fabric: Cotton",
+        "Style: Streetwear"
+      ],
+      "productId": "16",
+      "userId": "admin1",
+      "id": "OzLHA-03N1M"
+    },
+    {
+      "name": "White Minimal T-Shirt",
+      "price": 899,
+      "category": "T-Shirts",
+      "rating": 4.2,
+      "color": "White",
+      "image": "/images/tshirt2.jpg",
+      "InStock": true,
+      "description": [
+        "Color: White",
+        "Fit: Regular Fit",
+        "Fabric: 100% Cotton",
+        "Neck: Round Neck"
+      ],
+      "productId": "2",
+      "userId": "YzOPAaxZ0H4",
+      "id": "92_QeNIBjEY"
+    },
+    {
+      "name": "White Formal Shirt",
+      "price": 1499,
+      "category": "Shirts",
+      "type": "Formal",
+      "rating": 4.4,
+      "color": "White",
+      "image": "/images/shirt1.jpg",
+      "InStock": true,
+      "description": [
+        "Color: White",
+        "Fit: Slim Fit",
+        "Fabric: Cotton",
+        "Style: Formal"
+      ],
+      "productId": "7",
+      "userId": "LRFOiJUjtro",
+      "id": "fCRAaUFtly0"
     }
   ],
   "orders": [
@@ -621,7 +737,7 @@
       ],
       "total": 3898,
       "method": "cod",
-      "status": "Shipped",
+      "status": "Delivered",
       "date": "8/5/2026, 3:50:08 pm",
       "address": {
         "name": "snehul v v",
@@ -697,7 +813,7 @@
       ],
       "total": 4297,
       "method": "cod",
-      "status": "Delivered",
+      "status": "Shipped",
       "date": "8/5/2026, 7:21:45 pm",
       "address": {
         "name": "messi",
@@ -1443,6 +1559,339 @@
         "pincode": "673546"
       },
       "id": "w7y0FegPoqs"
+    },
+    {
+      "userId": "2RW7Ayu8jTM",
+      "items": [
+        {
+          "name": "Classic Grey T-Shirt",
+          "price": 799,
+          "category": "T-Shirts",
+          "rating": 4.8,
+          "color": "Grey",
+          "image": "/images/tshirt6.jpg",
+          "InStock": true,
+          "description": [
+            "Color: Grey",
+            "Fit: Regular Fit",
+            "Fabric: Soft Cotton",
+            "Neck: Round Neck"
+          ],
+          "productId": "6",
+          "userId": "2RW7Ayu8jTM",
+          "qty": 1,
+          "id": "cwEAVbFgaG4"
+        }
+      ],
+      "total": 799,
+      "method": "online",
+      "paymentId": "pay_SrfObxkWCULfO3",
+      "date": "5/20/2026, 8:54:17 PM",
+      "address": {
+        "name": "Snehul VV",
+        "phone": "8113858237",
+        "address": "123 floor ",
+        "city": "Argentina",
+        "pincode": "673546"
+      },
+      "id": "yMr4dFHNUf8"
+    },
+    {
+      "userId": "2RW7Ayu8jTM",
+      "items": [
+        {
+          "name": "Denim Casual Shirt",
+          "price": 1799,
+          "category": "Shirts",
+          "type": "Casual",
+          "rating": 4.6,
+          "color": "Dark Blue",
+          "image": "/images/shirt5.jpg",
+          "InStock": true,
+          "description": [
+            "Color: Dark Blue",
+            "Fit: Regular Fit",
+            "Fabric: Denim",
+            "Style: Casual"
+          ],
+          "productId": "lRJfLgeaBHg",
+          "userId": "2RW7Ayu8jTM",
+          "qty": 2,
+          "id": "C0pG1QcxNLQ"
+        },
+        {
+          "name": "White Minimal T-Shirt",
+          "price": 899,
+          "category": "T-Shirts",
+          "rating": 4.2,
+          "color": "White",
+          "image": "/images/tshirt2.jpg",
+          "InStock": true,
+          "description": [
+            "Color: White",
+            "Fit: Regular Fit",
+            "Fabric: 100% Cotton",
+            "Neck: Round Neck"
+          ],
+          "productId": "2",
+          "userId": "2RW7Ayu8jTM",
+          "qty": 1,
+          "id": "kLE_DIT1ujs"
+        }
+      ],
+      "total": 4497,
+      "method": "online",
+      "paymentId": "pay_Ss4aGTc8yYXcb2",
+      "date": "5/21/2026, 9:32:35 PM",
+      "address": {
+        "name": "Snehul VV",
+        "phone": "8113858237",
+        "address": "vakdld",
+        "city": "Argentina",
+        "pincode": "673546"
+      },
+      "id": "fnudXy6BhHs"
+    },
+    {
+      "userId": "admin1",
+      "items": [
+        {
+          "name": "Classic Grey T-Shirt",
+          "price": 799,
+          "category": "T-Shirts",
+          "rating": 4.8,
+          "color": "Grey",
+          "image": "/images/tshirt6.jpg",
+          "InStock": true,
+          "description": [
+            "Color: Grey",
+            "Fit: Regular Fit",
+            "Fabric: Soft Cotton",
+            "Neck: Round Neck"
+          ],
+          "productId": "6",
+          "userId": "admin1",
+          "qty": 1,
+          "id": "inDofoMnNo0"
+        },
+        {
+          "name": "White Formal Shirt",
+          "price": 1499,
+          "category": "Shirts",
+          "type": "Formal",
+          "rating": 4.4,
+          "color": "White",
+          "image": "/images/shirt1.jpg",
+          "InStock": true,
+          "description": [
+            "Color: White",
+            "Fit: Slim Fit",
+            "Fabric: Cotton",
+            "Style: Formal"
+          ],
+          "productId": "7",
+          "userId": "admin1",
+          "qty": 1,
+          "id": "ieisiq5ScLE"
+        }
+      ],
+      "total": 2298,
+      "method": "cod",
+      "date": "6/1/2026, 9:20:17 PM",
+      "address": {
+        "name": "Snehul VV",
+        "phone": "8113858237",
+        "address": "vakdld",
+        "city": "Argentina",
+        "pincode": "673546"
+      },
+      "id": "gUXY5uC28Gw"
+    },
+    {
+      "userId": "LRFOiJUjtro",
+      "items": [
+        {
+          "name": "Striped Office Shirt",
+          "price": 1699,
+          "category": "Shirts",
+          "type": "Formal",
+          "rating": 4.3,
+          "color": "Blue & White",
+          "image": "/images/shirt3.jpg",
+          "InStock": true,
+          "description": [
+            "Color: Blue & White Stripes",
+            "Fit: Slim Fit",
+            "Fabric: Cotton",
+            "Pattern: Striped"
+          ],
+          "productId": "9",
+          "userId": "LRFOiJUjtro",
+          "qty": 3,
+          "id": "zolr5F4_BRk"
+        },
+        {
+          "name": "White Formal Shirt",
+          "price": 1499,
+          "category": "Shirts",
+          "type": "Formal",
+          "rating": 4.4,
+          "color": "White",
+          "image": "/images/shirt1.jpg",
+          "InStock": true,
+          "description": [
+            "Color: White",
+            "Fit: Slim Fit",
+            "Fabric: Cotton",
+            "Style: Formal"
+          ],
+          "productId": "OVHhYWd-DTs",
+          "userId": "LRFOiJUjtro",
+          "qty": 2,
+          "id": "F6WbePbu58Q"
+        }
+      ],
+      "total": 8095,
+      "method": "cod",
+      "date": "6/1/2026, 9:28:02 PM",
+      "address": {
+        "name": "Snehul VV",
+        "phone": "8113858237",
+        "address": "vakdld",
+        "city": "Argentina",
+        "pincode": "673546"
+      },
+      "id": "nv5Eaq2cMQ8"
+    },
+    {
+      "userId": "YzOPAaxZ0H4",
+      "items": [
+        {
+          "name": "Printed Street T-Shirt",
+          "price": 1099,
+          "category": "T-Shirts",
+          "rating": 3.5,
+          "color": "Faded Grey",
+          "image": "/images/tshirt3.jpg",
+          "InStock": true,
+          "description": [
+            "Color: Faded Grey",
+            "Fit: Relaxed Fit",
+            "Fabric: Cotton Blend",
+            "Pattern: Graphic Print"
+          ],
+          "productId": "3",
+          "userId": "YzOPAaxZ0H4",
+          "qty": 1,
+          "id": "X2-GSAdlYX4"
+        },
+        {
+          "name": "White Formal Shirt",
+          "price": 1499,
+          "category": "Shirts",
+          "type": "Formal",
+          "rating": 4.4,
+          "color": "White",
+          "image": "/images/shirt1.jpg",
+          "InStock": true,
+          "description": [
+            "Color: White",
+            "Fit: Slim Fit",
+            "Fabric: Cotton",
+            "Style: Formal"
+          ],
+          "productId": "7",
+          "userId": "YzOPAaxZ0H4",
+          "qty": 1,
+          "id": "39VlK5gDoxI"
+        },
+        {
+          "name": "Slim Fit Formal Pants",
+          "price": 2099,
+          "category": "Pants",
+          "type": "Formal",
+          "rating": 4.8,
+          "color": "Deep Olive Green",
+          "image": "/images/pants3.jpg",
+          "InStock": true,
+          "description": [
+            "Color: Deep Olive Green",
+            "Fit: Slim Fit",
+            "Fabric: Cotton Blend",
+            "Style: Formal"
+          ],
+          "productId": "15",
+          "userId": "YzOPAaxZ0H4",
+          "qty": 1,
+          "id": "M4Fj_FDfw4Q"
+        },
+        {
+          "name": "White Minimal T-Shirt",
+          "price": 899,
+          "category": "T-Shirts",
+          "rating": 4.2,
+          "color": "White",
+          "image": "/images/tshirt2.jpg",
+          "InStock": true,
+          "description": [
+            "Color: White",
+            "Fit: Regular Fit",
+            "Fabric: 100% Cotton",
+            "Neck: Round Neck"
+          ],
+          "productId": "92_QeNIBjEY",
+          "userId": "YzOPAaxZ0H4",
+          "qty": 1,
+          "id": "Dk-H3vuwxhQ"
+        }
+      ],
+      "total": 5596,
+      "method": "cod",
+      "date": "7/31/2026, 9:17:45 PM",
+      "address": {
+        "name": "Snehul VV",
+        "phone": "8113858237",
+        "address": "vakdld",
+        "city": "Argentina",
+        "pincode": "158744154"
+      },
+      "id": "4iU-3Zt47Mg"
+    },
+    {
+      "userId": "SzIOdpJB7ek",
+      "items": [
+        {
+          "name": "Grey Office Pants",
+          "price": 1899,
+          "category": "Pants",
+          "type": "Formal",
+          "rating": 4.6,
+          "color": "Grey",
+          "image": "/images/pants2.jpg",
+          "InStock": true,
+          "description": [
+            "Color: Grey",
+            "Fit: Regular Fit",
+            "Fabric: Cotton Blend",
+            "Style: Office Wear"
+          ],
+          "productId": "14",
+          "userId": "SzIOdpJB7ek",
+          "qty": 1,
+          "id": "Fm7FUGmoOoo"
+        }
+      ],
+      "total": 1899,
+      "method": "cod",
+      "date": "8/13/2026, 12:07:11 PM",
+      "address": {
+        "name": "Snehul",
+        "phone": "8113858237",
+        "address": "123 Building kakkanad",
+        "city": "calicut",
+        "pincode": "673508"
+      },
+      "id": "mEXJHNxJL20"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -61,7 +61,7 @@ function Orders() {
               <th className="p-4 text-left">
                 Total
               </th>
-
+ 
               <th className="p-4 text-left">
                 Payment
               </th>
