@@ -34,57 +34,41 @@ function Login() {
 
     onSuccess: async (data) => {
 
-      if (data.length > 0) {
+      try {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data));
+        dispatch(login(data));
+        // const cartData = await getCart(data.userId);
+        // const wishlistData = await getWishlist(data.userId);
+        // const orderData = await getOrders(data.userId);
 
-        const loggedInUser = data[0];
-
-        const savedProfileImage =localStorage.getItem("profileImage" );
-
-        const updatedUser = {
-          ...loggedInUser,
-          profileImage:savedProfileImage || "",
-        };
-        localStorage.setItem("user",JSON.stringify(updatedUser));
-
-        dispatch(login(updatedUser));
-
-        const cartData = await getCart(updatedUser.id);
-
-        const wishlistData = await getWishlist(updatedUser.id);
-
-        const orderData = await getOrders(updatedUser.id);
-
-        dispatch(setCart(cartData));
-
-        dispatch( setWishlist(wishlistData) );
-
-        dispatch(setOrders(orderData));
-
-        if (updatedUser.isBlocked) {
-
-          toast.error( "Your account is blocked");
-            return;
-        }
+        // dispatch(setCart(cartData));
+        // dispatch(setWishlist(wishlistData));
+        // dispatch(setOrders(orderData));
 
         toast.success("Login successfully");
-
-        if (updatedUser.role === "admin" ) {
-
-          navigate( "/admin/dashboard");
-
+        if (data.role?.toLowerCase() === "admin") {
+          navigate("/admin/dashboard");
         } else {
-
           navigate("/");
         }
 
-      } else {
-       toast.error( "Invalid credentials");
+      } catch (err) {
+        toast.error("Failed to load user data");
       }
+
     },
 
-    onError: () => {
+    onError: (error) => {
+      console.log("LOGIN ERROR:", error);
+      console.log("ERROR RESPONSE:", error.response?.data);
+      console.log("Error message",   error.response?.data?.Message)
 
-      toast.error("Login Failed");
+      const message =
+        error.response?.data?.Message ||
+        "Login failed";
+
+      toast.error(message);
     },
   });
 
@@ -94,7 +78,7 @@ function Login() {
 
     const validateErrors = validate();
 
-    if (Object.keys(validateErrors).length > 0){
+    if (Object.keys(validateErrors).length > 0) {
       setError(validateErrors);
       return;
     }
@@ -115,7 +99,7 @@ function Login() {
 
       err.email = "Email required";
 
-    } else if (!emailRegex.test(input.email) ) {
+    } else if (!emailRegex.test(input.email)) {
 
       err.email = "Invalid email format";
     }
@@ -190,8 +174,8 @@ function Login() {
           type="submit"
           disabled={mutation.isPending}
           className={`w-full py-3 rounded-full transition ${mutation.isPending
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#4fd1c5] hover:opacity-90"
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-[#4fd1c5] hover:opacity-90"
             }`}
         >
 

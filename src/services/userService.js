@@ -1,20 +1,15 @@
 import API from "./api"
 const registerUser = async (userData) => {
-  const res = await API.get(`/users?email=${userData.email}`)
-
-  if (res.data.length > 0) {
-    throw new Error("User already exists")
-  }
-
-  return API.post("/users", userData)
+const response = await API.post("/Auth/register", userData);
+  return response.data;
 }
-const loginUser = async({email,password})=>{
-    let res = await API.get(`/users?email=${email}`)
-    const users = res.data
-    if (users.length > 0 && users[0].password === password) {
-        return [users[0]]
-    }
-    return []
-}
+const loginUser = async ({ email, password }) => {
+  const response = await API.post("/Auth/login", {
+    email,
+    password
+  });
+
+  return response.data;
+};
 
 export { registerUser, loginUser};

@@ -134,7 +134,15 @@ function Navbar() {
                 onClick={() => setShowUser(!showUser)}
                 className="w-9 h-9 rounded-full bg-gray-700 flex items-center justify-center text-sm font-semibold cursor-pointer"
               >
-                {user?.fullName?.charAt(0).toUpperCase() || "U"}
+                {user?.profileImageUrl ? (
+                  <img
+                    src={user.profileImageUrl}
+                    alt={user.fullName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  user?.fullName?.charAt(0).toUpperCase()
+                )}
               </div>
 
               {showUser && (

@@ -3,12 +3,20 @@ import { getProducts } from "../services/productService";
 import ProductCard from "./ProductCard";
 
 function Trending() {
-  const { data = [] } = useQuery({
+  const { data,isLoading,isError } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
 
-   const trend = [...data]?.sort((a,b)=>b.rating-a.rating)
+  if(isLoading){
+    return <h1>Loading...</h1>
+  }
+  if(isError){
+    return <h1>Error Loading products</h1>
+  }
+  const products = data?.items||[]
+
+   const trend = [...products]?.sort((a,b)=>b.rating-a.rating)
   const trending = trend.slice(0,4)
   return (
     <div className="px-6 md:px-10">

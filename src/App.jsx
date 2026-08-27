@@ -29,15 +29,19 @@ import Dashboard from "./admin/pages/Dashboard";
 import ProductsAdmin from "./admin/pages/Products"
 import Users from './admin/pages/Users'
 import OrdersAdmin from './admin/pages/Orders'
-import AdminProfile from "./admin/pages/AdminProfile";
+import AdminProfile from "./admin/pages/Adminprofile";
 import AdminProtectedRoute from "./admin/components/AdminProtectedRoute";
+
 
 function App() {
   const user = useSelector((s) => s?.auth.user)
+  console.log("APP USER:", user);
+  console.log("APP CURRENT PATH:", window.location.pathname);
 
   const { data: wishlistData } = useQuery({
-    queryKey: ["whishlist", user?.id],
-    queryFn: () => getWishlist(user?.id)
+    queryKey: ["whishlist", user?.userId],
+    queryFn: () => getWishlist(user?.userId),
+    enabled: !!user?.userId
   })
 
   const dispatch = useDispatch()
@@ -46,8 +50,9 @@ function App() {
   }, [wishlistData])
 
   const { data: cartData } = useQuery({
-    queryKey: ["addtocart", user?.id],
-    queryFn: () => getCart(user?.id)
+    queryKey: ["addtocart", user?.userId],
+    queryFn: () => getCart(user?.userId),
+    enabled: !!user?.userId
   })
   useEffect(() => {
     dispatch(setCart(cartData || []))
@@ -55,8 +60,9 @@ function App() {
 
 
   const { data: orderData } = useQuery({
-    queryKey: ["orders", user?.id],
-    queryFn: () => getOrders(user?.id)
+    queryKey: ["orders", user?.userId],
+    queryFn: () => getOrders(user?.userId),
+    enabled: !!user?.userId
   })
   useEffect(() => {
     dispatch(setOrders(orderData || []))
@@ -72,7 +78,8 @@ function App() {
 
   const { data: userData } = useQuery({
     queryKey: ["users"],
-    queryFn: () => getUsers()
+    queryFn: () => getUsers(),
+      enabled: user?.role?.toLowerCase() === "admin"
   })
   useEffect(() => {
     dispatch(setUsers(userData || []))
