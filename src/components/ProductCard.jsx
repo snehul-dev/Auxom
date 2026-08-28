@@ -70,19 +70,11 @@ function ProductCard({ item }) {
     }
     const existing = wishlistItems.find((i) => i.productId === item.id)
     if (existing) {
-      await removeFromWishlist(existing.id)
+      await removeFromWishlist(existing.productId)
       dispatch(toggleWishlist(existing))
     } else {
-      const { id, ...rest } = item;
-
-      const wishlistItem = {
-        ...rest,
-        productId: id,
-        userId: user.id,
-      };
-
       const savedWishlist =
-        await addToWishlistAPI(wishlistItem);
+        await addToWishlistAPI(item.id);
 
       dispatch(toggleWishlist(savedWishlist));
 

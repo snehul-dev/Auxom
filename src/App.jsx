@@ -35,12 +35,10 @@ import AdminProtectedRoute from "./admin/components/AdminProtectedRoute";
 
 function App() {
   const user = useSelector((s) => s?.auth.user)
-  console.log("APP USER:", user);
-  console.log("APP CURRENT PATH:", window.location.pathname);
 
   const { data: wishlistData } = useQuery({
-    queryKey: ["whishlist", user?.userId],
-    queryFn: () => getWishlist(user?.userId),
+    queryKey: ["wishlist", user?.userId],
+    queryFn: getWishlist,
     enabled: !!user?.userId
   })
 

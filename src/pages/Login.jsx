@@ -5,6 +5,7 @@ import { loginUser } from "../services/userService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Eye, EyeOff } from "lucide-react";
 
 import { getCart } from "../services/cartService";
 import { getWishlist } from "../services/wishlistService";
@@ -22,6 +23,7 @@ function Login() {
   const dispatch = useDispatch();
 
   const [error, setError] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const [input, setInput] = useState({
     email: "",
@@ -39,11 +41,11 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(data));
         dispatch(login(data));
         // const cartData = await getCart(data.userId);
-        // const wishlistData = await getWishlist(data.userId);
+        const wishlistData = await getWishlist(data.userId);
         // const orderData = await getOrders(data.userId);
 
         // dispatch(setCart(cartData));
-        // dispatch(setWishlist(wishlistData));
+        dispatch(setWishlist(wishlistData));
         // dispatch(setOrders(orderData));
 
         toast.success("Login successfully");
@@ -60,9 +62,6 @@ function Login() {
     },
 
     onError: (error) => {
-      console.log("LOGIN ERROR:", error);
-      console.log("ERROR RESPONSE:", error.response?.data);
-      console.log("Error message",   error.response?.data?.Message)
 
       const message =
         error.response?.data?.Message ||
@@ -155,15 +154,28 @@ function Login() {
           {error.email}
         </p>
 
+        <div className="relative w-full mb-2">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Password"
+            value={input.password}
+            onChange={handleInput}
+            className="w-full px-4 py-3 pr-12 rounded-full bg-white/20 placeholder-white border border-white/30 backdrop-blur-md focus:outline-none"
+          />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={input.password}
-          onChange={handleInput}
-          className="w-full mb-2 px-4 py-3 rounded-full bg-white/20 placeholder-white border border-white/30 backdrop-blur-md focus:outline-none"
-        />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-4 top-0 h-full flex items-center text-white"
+          >
+            {showPassword ? (
+              <EyeOff size={20} />
+            ) : (
+              <Eye size={20} />
+            )}
+          </button>
+        </div>
 
         <p className="text-red-300 text-sm mb-3">
           {error.password}

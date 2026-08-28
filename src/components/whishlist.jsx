@@ -12,13 +12,13 @@ import {removeFromWishlist as removeWishlistApi} from "../services/wishlistServi
 function Wishlist() {
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const wishlistItems = useSelector(
-    (state) => state.wishlist.items
-  );
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  console.log(wishlistItems);
   const cartItems = useSelector((s) => s?.cart.items)
   const user = useSelector((s) => s?.auth.user)
   const handleCart = async (e, item) => {
     e.stopPropagation();
+
 
     if (!user) {
       navigate("/login");
@@ -59,9 +59,9 @@ function Wishlist() {
 
     dispatch(addToCart(savedCartItem));
   };
-  const handleWhishlistRemove = async(id)=>{
-    await removeWishlistApi(id)
-    dispatch(removeFromWishlist(id))
+  const handleWhishlistRemove = async(ProductId)=>{
+    await removeWishlistApi(ProductId)
+    dispatch(removeFromWishlist(ProductId))
   }
 
   return (
@@ -84,8 +84,9 @@ function Wishlist() {
           ) : (
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
               {wishlistItems?.map((item) => (
+                
                 <div
-                  key={item.id}
+                  key={item.wishlistId}
                   className="bg-white rounded-2xl shadow p-4 hover:shadow-lg transition"
                 >
                   <img
@@ -95,11 +96,11 @@ function Wishlist() {
                   />
 
                   <h2 className="mt-3 font-semibold text-gray-800">
-                    {item.name}
+                    {item.productName}
                   </h2>
 
                   <p className="text-gray-600 mt-1">
-                    ₹{item.price}
+                    ₹{item.productPrice}
                   </p>
 
                   <div className="text-yellow-500 text-lg">
@@ -136,7 +137,7 @@ function Wishlist() {
 
 
                     <button
-                      onClick={()=>handleWhishlistRemove(item.id) }
+                      onClick={()=>handleWhishlistRemove(item.productId) }
                       className="flex-1 border border-red-500 text-red-500 py-2 rounded-lg hover:bg-red-50"
                     >
                       Remove

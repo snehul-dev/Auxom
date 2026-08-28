@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProducts } from "../services/productService";
+import { getSingleProduct } from "../services/productService";
 import Navbar from "./Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
@@ -20,23 +20,16 @@ function ProductDisplay() {
 
   const [selectedSize, setSelectedSize] = useState(null);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
+  const { data: product, isLoading, isError } = useQuery({
+    queryKey: ["product", id],
+    queryFn: () => getSingleProduct(id),
+    enabled: !!id,
   });
+  console.log("Product ID:", id);
+  console.log("Product data:", product);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
-  const product = data?.find(
-    (item) => String(item.id) === id
-  );
-
-
-  const wishlistItems = useSelector(
-    (state) => state.wishlist.items
-  );
-
-  const isLiked = wishlistItems?.some(
-    (item) => item.productId === product?.id
-  );
+  const isLiked = wishlistItems?.some((item) => item.productId === product?.id);
   const handleWishlist = async (e) => {
     e.stopPropagation();
 
@@ -48,26 +41,17 @@ function ProductDisplay() {
     const existing = wishlistItems.find(
       (i) => i.productId === product.id
     );
+    console.log(existing);
 
     if (existing) {
-      await removeFromWishlist(existing.id);
+      await removeFromWishlist(existing.productId);
 
       dispatch(toggleWishlist(existing));
 
       return;
     }
 
-
-    const { id, ...rest } = product;
-
-    const wishlistItem = {
-      ...rest,
-      productId: id,
-      userId: user.id,
-    };
-
-    const savedWishlist =
-      await addToWishlistAPI(wishlistItem);
+    const savedWishlist = await addToWishlistAPI(product.id);
 
     dispatch(toggleWishlist(savedWishlist));
   };
@@ -102,7 +86,7 @@ function ProductDisplay() {
       return;
     }
 
-  
+
     const { id, ...rest } = product;
 
     const cartItem = {
@@ -162,7 +146,7 @@ function ProductDisplay() {
               ₹{product.price}
             </p>
 
-            {product.InStock ? (
+            {product.inStock ? (
               <p className="text-green-600 font-medium">
                 In Stock
               </p>
@@ -183,11 +167,9 @@ function ProductDisplay() {
               {product.color}
             </p>
 
-            <ul className="list-disc pl-5 text-sm text-gray-700">
-              {product.description?.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
+            <p className="text-sm text-gray-600">
+              {product.description}
+            </p>
 
             <div>
               <p className="font-medium mb-3">Select Size</p>
@@ -207,7 +189,7 @@ function ProductDisplay() {
               </div>
             </div>
 
-            {product.InStock && (
+            {product.inStock && (
               <div className="flex gap-4 mt-4">
                 <button
                   onClick={handleCart}

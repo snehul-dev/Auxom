@@ -30,7 +30,7 @@ const wishlistSlice = createSlice({
 
     removeFromWishlist: (state, action) => {
       state.items = state.items.filter(
-        (i) => i.id !== action.payload
+        (i) => i.productId !== action.payload
       );
     },
 

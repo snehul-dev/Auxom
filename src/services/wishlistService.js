@@ -1,24 +1,26 @@
 import API from "./api";
 
-const getWishlist = async (userId) => {
-  const res = await API.get(`/wishlists?userId=${userId}`);
+const getWishlist = async () => {
+  const res = await API.get("/Wishlist");
   return res.data;
 };
 
-const addToWishlistAPI = async (wishlistItem) => {
-  const res = await API.post("/wishlists", wishlistItem);
+const addToWishlistAPI = async (productId) => {
+  const res = await API.post("/Wishlist", {
+    ProductId : productId
+  });
   return res.data;
 };
 
-const removeFromWishlist = async (id) => {
-  const res = await API.delete(`/wishlists/${id}`);
+const removeFromWishlist = async (productId) => {
+  const res = await API.delete(`/Wishlist/${productId}`);
   return res.data;
 };
 
-const clearWishlist = async (userId) => {
-  const res = await API.get(`/wishlists?userId=${userId}`);
-  const items = res.data;
-  await Promise.all(items.map(item => API.delete(`/wishlists/${item.id}`)));
+const clearWishlist = async () => {
+  const res = await API.delete("/Wishlist");
+  return res.data;
+  
 };
 
 export { getWishlist, addToWishlistAPI, removeFromWishlist, clearWishlist };
