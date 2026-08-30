@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
+import { setCart } from "../redux/slices/cartSlice";
 import { toggleWishlist } from "../redux/slices/whishlistSlice"
 import { addToCartAPI, updateCartItem } from "../services/cartService";
 import { addToWishlistAPI, removeFromWishlist } from "../services/wishlistService";
+
 
 
 function ProductCard({ item }) {
@@ -25,41 +27,35 @@ function ProductCard({ item }) {
       return;
     }
 
-    const existing = cartItems.find(
-      (i) => i.productId === item.id
-    );
+    try {
+      const existing = cartItems.find(
+        (i) => i.productId === item.id
+      );
 
-    if (existing) {
-      const updatedItem = {
-        ...existing,
-        qty: existing.qty + 1,
+      if (existing) {
+        const updatedCart = await updateCartItem(
+          existing.cartItemId,
+          existing.quantity + 1
+        );
+
+        dispatch(setCart(updatedCart));
+        return;
+      }
+
+      const cartItem = {
+        productId: item.id,
+        quantity: 1,
       };
 
+      const savedCart = await addToCartAPI(cartItem);
 
-      await updateCartItem(existing.id, updatedItem);
+      dispatch(setCart(savedCart));
 
-      dispatch(addToCart({
-        ...existing,
-        qty: 1,
-      }));
-
-      return;
+    } catch (error) {
+      console.error("Failed to add item to cart:", error);
     }
-
-    const { id, ...rest } = item;
-
-    const cartItem = {
-      ...rest,
-      productId: id,
-      userId: user.id,
-      qty: 1,
-    };
-
-    const savedCartItem =
-      await addToCartAPI(cartItem);
-
-    dispatch(addToCart(savedCartItem));
   }
+
 
   const handleWishlist = async (e) => {
     e.stopPropagation();

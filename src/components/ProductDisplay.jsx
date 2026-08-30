@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getSingleProduct } from "../services/productService";
 import Navbar from "./Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/slices/cartSlice";
+import { addToCart, setCart } from "../redux/slices/cartSlice";
 import { toggleWishlist } from "../redux/slices/whishlistSlice"
 import Footer from "./Footer";
 import { addToCartAPI, updateCartItem } from "../services/cartService";
@@ -60,47 +60,39 @@ function ProductDisplay() {
   if (!product) return <h1>Product Not Found</h1>;
 
   const handleCart = async () => {
-    if (!user) {
-      navigate("/login");
-      return;
-    }
+  if (!user) {
+    navigate("/login");
+    return;
+  }
 
+  try {
     const existing = cartItems.find(
       (i) => i.productId === product.id
     );
 
-
     if (existing) {
-      const updatedItem = {
-        ...existing,
-        qty: existing.qty + 1,
-      };
+      const updatedCart = await updateCartItem(
+        existing.cartItemId,
+        existing.quantity + 1
+      );
 
-      await updateCartItem(existing.id, updatedItem);
-
-      dispatch(addToCart({
-        productId: existing.productId,
-        qty: 1,
-      }));
-
+      dispatch(setCart(updatedCart));
       return;
     }
 
-
-    const { id, ...rest } = product;
-
     const cartItem = {
-      ...rest,
-      productId: id,
-      userId: user.id,
-      qty: 1,
+      productId: product.id,
+      quantity: 1,
     };
 
-    const savedCartItem =
-      await addToCartAPI(cartItem);
+    const savedCart = await addToCartAPI(cartItem);
 
-    dispatch(addToCart(savedCartItem));
-  };
+    dispatch(setCart(savedCart));
+
+  } catch (error) {
+    console.error("Failed to add product to cart:", error);
+  }
+};
   const handleBuy = () => {
     if (!user) {
       navigate("/login")

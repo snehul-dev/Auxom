@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../components/Navbar";
-import { increaseQty, decreaseQty, removeFromCart } from "../redux/slices/cartSlice";
+import { removeFromCart, setCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Backbutton from "../components/Backbutton";
@@ -8,6 +8,7 @@ import { removeFromCart as removeFromCartAPI, updateCartItem } from "../services
 
 function Cart() {
   const cartItems = useSelector((state) => state?.cart.items);
+  const grandTotal = useSelector((state) => state?.cart.grandTotal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,37 +18,30 @@ function Cart() {
     dispatch(removeFromCart(id));
   };
   const handleIncrease = async (item) => {
-    const updatedItem = {
-      ...item,
-      qty: item.qty + 1,
-    };
+    try {
+      const updatedCart = await updateCartItem(item.cartItemId, item.quantity + 1);
+     
+      dispatch(setCart(updatedCart));
+    } catch (error) {
+      console.error(error)
+    }
 
-    await updateCartItem(item.id, updatedItem);
-
-    dispatch(increaseQty(item.id));
   };
 
   const handleDecrease = async (item) => {
-    if (item.qty > 1) {
-      const updatedItem = {
-        ...item,
-        qty: item.qty - 1,
-      };
-
-      await updateCartItem(item.id, updatedItem);
-
-      dispatch(decreaseQty(item.id));
-    } else {
-      await removeFromCartAPI(item.id);
-
-      dispatch(decreaseQty(item.id));
+    try {
+      if (item.quantity > 1) {
+        const updatedCart = await updateCartItem(item.cartItemId, item.quantity - 1);
+        dispatch(setCart(updatedCart));
+      } else {
+        await removeFromCartAPI(item.cartItemId);
+        dispatch(removeFromCart(item.cartItemId));
+      }
+    } catch (error) {
+      console.error(error)
     }
-  };
 
-  const total = cartItems.reduce(
-    (acc, item) => acc + item.price * item.qty,
-    0
-  );
+  };
 
   return (
     <>
@@ -68,19 +62,19 @@ function Cart() {
               <div className="space-y-5">
                 {cartItems.map((item) => (
                   <div
-                    key={item.productId}
+                    key={item.cartItemId}
                     className="flex items-center gap-5 bg-white p-5 rounded-2xl shadow hover:shadow-md transition"
                   >
-                    
+
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={item.imageUrl}
+                      alt={item.productName}
                       className="w-24 h-24 object-cover rounded-xl"
                     />
 
                     <div className="flex-1">
                       <h2 className="text-lg font-semibold text-gray-800">
-                        {item.name}
+                        {item.productName}
                       </h2>
                       <p className="text-gray-500 mt-1">
                         ₹{item.price}
@@ -97,7 +91,7 @@ function Cart() {
                         </button>
 
                         <span className="font-medium">
-                          {item.qty}
+                          {item.quantity}
                         </span>
 
                         <button
@@ -112,7 +106,7 @@ function Cart() {
                     </div>
 
                     <button
-                      onClick={() => handleRemove(item.id)}
+                      onClick={() => handleRemove(item.cartItemId)}
                       className="text-red-500 hover:text-red-600 text-sm font-medium"
                     >
                       Remove
@@ -127,7 +121,7 @@ function Cart() {
                     Total Amount
                   </p>
                   <h2 className="text-2xl font-bold text-gray-900">
-                    ₹{total}
+                    ₹{grandTotal}
                   </h2>
                 </div>
 

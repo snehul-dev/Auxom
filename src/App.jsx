@@ -48,13 +48,13 @@ function App() {
   }, [wishlistData])
 
   const { data: cartData } = useQuery({
-    queryKey: ["addtocart", user?.userId],
-    queryFn: () => getCart(user?.userId),
+    queryKey: ["cart", user?.userId],
+    queryFn: getCart,
     enabled: !!user?.userId
   })
   useEffect(() => {
-    dispatch(setCart(cartData || []))
-  }, [cartData])
+    dispatch(setCart(cartData || {}))
+  }, [cartData,dispatch])
 
 
   const { data: orderData } = useQuery({

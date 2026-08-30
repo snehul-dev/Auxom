@@ -40,11 +40,11 @@ function Login() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data));
         dispatch(login(data));
-        // const cartData = await getCart(data.userId);
+        const cartData = await getCart(data.userId);
         const wishlistData = await getWishlist(data.userId);
         // const orderData = await getOrders(data.userId);
 
-        // dispatch(setCart(cartData));
+        dispatch(setCart(cartData));
         dispatch(setWishlist(wishlistData));
         // dispatch(setOrders(orderData));
 
