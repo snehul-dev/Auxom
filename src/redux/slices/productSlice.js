@@ -24,17 +24,17 @@ const productSlice = createSlice({
     },
 
     addProduct: (state, action) => {
-      state.items.push(action.payload);
+      state.items.items.push(action.payload);
     },
 
     updateProduct: (state,action) => {
-      const index = state.items.findIndex((item) =>item.id ===action.payload.id);
+      const index = state.items.items.findIndex((item) =>item.id ===action.payload.id);
       if (index !== -1) {
-        state.items[index] = action.payload;   
+        state.items.items[index] = action.payload;   
      }},
 
     deleteProduct: (state, action ) => {
-      state.items = state.items.filter( (item) =>
+      state.items.items = state.items.items.filter( (item) =>
             item.id !== action.payload );
     },
 

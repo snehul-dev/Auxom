@@ -111,7 +111,7 @@ function ProductCard({ item }) {
           {"☆".repeat(5 - Math.floor(item.rating))}
         </div>
 
-        {item.inStock ? (
+        {item.stockQuantity > 0 ? (
           <button
             onClick={handleAdd}
             className="mt-3 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900"

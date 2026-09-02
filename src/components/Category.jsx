@@ -6,8 +6,8 @@ import pantImg from "../assets/category_pant.jpeg";
 
 const categories = [
   { id: 1, name: "T-Shirts", image: tshirtImg },
-  { id: 2, name: "Shirts", image: shirtImg },
-  { id: 3, name: "Pants", image: pantImg },
+  { id: 2, name: "Shirt", image: shirtImg },
+  { id: 3, name: "Pant", image: pantImg },
 ];
 
 function Category() {

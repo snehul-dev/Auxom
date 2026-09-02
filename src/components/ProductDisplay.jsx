@@ -149,9 +149,9 @@ function ProductDisplay() {
             )}
 
             <div className="text-yellow-500 text-lg">
-              {"★".repeat(Math.floor(product.rating || 4))}
+              {"★".repeat(Math.floor(product.rating ))}
               {"☆".repeat(
-                5 - Math.floor(product.rating || 4)
+                5 - Math.floor(product.rating)
               )}
             </div>
 

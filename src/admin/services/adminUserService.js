@@ -1,21 +1,15 @@
 import API from "../../services/api";
 
 const getUsers = async () => {
-  const res = await API.get("/users");
+  const res = await API.get("/admin/users");
 
   return res.data;
 };
 
-const updateUser = async (id, updatedUser) => {
-  const res = await API.put(`/users/${id}`, updatedUser);
-
-  return res.data;
-};
-
-const deleteUser = async (id) => {
-  const res = await API.delete(
-    `/users/${id}`
-  );
+const updateUser = async (userId,IsBlocked) => {
+  const res = await API.patch(`/admin/users/${userId}/status`, {
+    IsBlocked,
+  });
 
   return res.data;
 };
@@ -23,5 +17,5 @@ const deleteUser = async (id) => {
 export {
   getUsers,
   updateUser,
-  deleteUser,
+  
 };

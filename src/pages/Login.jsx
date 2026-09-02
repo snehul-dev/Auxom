@@ -38,15 +38,18 @@ function Login() {
 
       try {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("refreshToken", data.refreshToken);
         localStorage.setItem("user", JSON.stringify(data));
+
         dispatch(login(data));
+
         const cartData = await getCart(data.userId);
         const wishlistData = await getWishlist(data.userId);
-        // const orderData = await getOrders(data.userId);
+        const orderData = await getOrders(data.userId);
 
         dispatch(setCart(cartData));
         dispatch(setWishlist(wishlistData));
-        // dispatch(setOrders(orderData));
+        dispatch(setOrders(orderData));
 
         toast.success("Login successfully");
         if (data.role?.toLowerCase() === "admin") {

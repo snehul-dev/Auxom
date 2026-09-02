@@ -1,19 +1,19 @@
 import API from "./api";
 
-const getOrders = async (userId) => {
-  const res = await API.get(`/orders?userId=${userId}`);
+const getOrders = async () => {
+  const res = await API.get("/Order");
   return res.data;
 };
 
 const addOrderAPI = async (order) => {
-  const res = await API.post("/orders", order);
+  const res = await API.post("/Order", order);
   return res.data;
 };
 
-const clearOrders = async (userId) => {
-  const res = await API.get(`/orders?userId=${userId}`);
-  const items = res.data;
-  await Promise.all(items.map(item => API.delete(`/orders/${item.id}`)));
-};
+const pendingOrder = async(order) =>{
+  const res = await API.post("/Order/pending",order)
+  return res.data;
+}
 
-export { getOrders, addOrderAPI, clearOrders };
+
+export { getOrders, addOrderAPI ,pendingOrder };

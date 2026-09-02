@@ -10,14 +10,12 @@ function Users() {
     queryKey: ["users"],
     queryFn: getUsers,
   });
-
+ console.log("user",users)
   const handleToggleStatus = async (user) => {
+   
       try {
-        const updatedUser = {
-          ...user,
-          isBlocked: !user.isBlocked,};
 
-        await updateUser( user.id, updatedUser);
+        await updateUser( user.id, !user.isBlocked);
 
         queryClient.invalidateQueries({
           queryKey: ["users"],
@@ -27,6 +25,8 @@ function Users() {
         console.log(error);
       }
     };
+
+    const normalUsers = users.filter(u =>u.email != "admin@gmail.com");
 
   return (
     <AdminLayout>
@@ -61,7 +61,7 @@ function Users() {
 
           <tbody>
 
-            {users.slice(1).map((user) => (
+            {normalUsers.map((user) => (
 
               <tr
                 key={user.id}

@@ -3,142 +3,179 @@ import { getProducts } from "../services/productService";
 import ProductCard from "../components/ProductCard";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Backbutton from "./Backbutton";
 
 function Products() {
   const [searchParams] = useSearchParams();
 
-  const category = searchParams.get("category") || "all";
+  // URL parameters
+  const category = searchParams.get("category") || "";
   const searchQuery = searchParams.get("search") || "";
 
+  // Filters
   const [pricefilter, setPriceFilter] = useState("");
   const [sorted, setSorted] = useState("");
   const [ratingFilter, setRatingFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
 
-  // Current page
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Number of products requested from backend
   const productsPerPage = 9;
 
-  // Backend pagination
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["products", currentPage],
-    queryFn: () => getProducts(currentPage, productsPerPage),
-  });
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (isError) {
-    return <h1>Error loading products</h1>;
-  }
-
-  // Backend response:
-  //
-  // {
-  //   items: [...],
-  //   pageNumber: 1,
-  //   pageSize: 9,
-  //   totalCount: 50,
-  //   totalPages: 6
-  // }
-
-  const products = data?.items || [];
-  const totalPages = data?.totalPages || 0;
-
   // ------------------------------------------------
-  // Category from URL
+  // Reset page when URL search/category changes
   // ------------------------------------------------
 
-  const filtered =
-    category === "all"
-      ? products
-      : products.filter(
-          (item) =>
-            item.category?.toLowerCase() ===
-            category.toLowerCase()
-        );
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [category, searchQuery]);
 
   // ------------------------------------------------
-  // Search
+  // Price filter
   // ------------------------------------------------
 
-  const searchedProducts = filtered.filter((item) =>
-    item.name
-      ?.toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
-
-  // ------------------------------------------------
-  // Other filters
-  // ------------------------------------------------
-
-  let finalProducts = [...searchedProducts];
+  let minPrice;
+  let maxPrice;
 
   if (pricefilter === "below999") {
-    finalProducts = finalProducts.filter(
-      (item) => item.price < 999
-    );
+    maxPrice = 999;
   }
 
   if (pricefilter === "below1499") {
-    finalProducts = finalProducts.filter(
-      (item) => item.price <= 1499
-    );
+    maxPrice = 1499;
   }
 
   if (pricefilter === "below1999") {
-    finalProducts = finalProducts.filter(
-      (item) => item.price <= 1999
-    );
+    maxPrice = 1999;
   }
 
   if (pricefilter === "above2000") {
-    finalProducts = finalProducts.filter(
-      (item) => item.price >= 2000
-    );
+    minPrice = 2000;
   }
 
+  // ------------------------------------------------
+  // Rating filter
+  // ------------------------------------------------
+
+  let minRating;
+
   if (ratingFilter === "4") {
-    finalProducts = finalProducts.filter(
-      (item) => item.rating >= 4
-    );
+    minRating = 4;
   }
 
   if (ratingFilter === "3") {
-    finalProducts = finalProducts.filter(
-      (item) => item.rating >= 3
-    );
-  }
-
-  if (categoryFilter) {
-    finalProducts = finalProducts.filter(
-      (item) =>
-        item.category?.toLowerCase() ===
-        categoryFilter.toLowerCase()
-    );
+    minRating = 3;
   }
 
   // ------------------------------------------------
   // Sorting
   // ------------------------------------------------
 
+  let sortBy;
+
   if (sorted === "byPriceInc") {
-    finalProducts.sort(
-      (a, b) => a.price - b.price
-    );
+    sortBy = "priceasc";
   }
 
   if (sorted === "byPriceDec") {
-    finalProducts.sort(
-      (a, b) => b.price - a.price
+    sortBy = "pricedesc";
+  }
+
+  // ------------------------------------------------
+  // Category
+  // ------------------------------------------------
+
+  const finalCategory = categoryFilter || category || undefined;
+
+  // ------------------------------------------------
+  // All filters
+  // ------------------------------------------------
+
+  const filters = {
+    search: searchQuery || undefined,
+    category: finalCategory,
+    minPrice,
+    maxPrice,
+    minRating,
+    sortBy,
+  };
+
+  // ------------------------------------------------
+  // Get products from backend
+  // ------------------------------------------------
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["products", currentPage, filters],
+
+    queryFn: () =>
+      getProducts(
+        currentPage,
+        productsPerPage,
+        filters
+      ),
+  });
+
+  // ------------------------------------------------
+  // Loading
+  // ------------------------------------------------
+
+  if (isLoading) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="flex justify-center items-center min-h-[60vh]">
+          <h1 className="text-xl">
+            Loading...
+          </h1>
+        </div>
+
+        <Footer />
+      </>
     );
   }
+
+  // ------------------------------------------------
+  // Error
+  // ------------------------------------------------
+
+  if (isError) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="flex justify-center items-center min-h-[60vh]">
+          <h1 className="text-xl text-red-500">
+            Error loading products
+          </h1>
+        </div>
+
+        <Footer />
+      </>
+    );
+  }
+
+  // ------------------------------------------------
+  // Backend response
+  // ------------------------------------------------
+
+  const products = data?.items || [];
+  const totalPages = data?.totalPages || 0;
+
+  // ------------------------------------------------
+  // Reset all filters
+  // ------------------------------------------------
+
+  const clearFilters = () => {
+    setPriceFilter("");
+    setSorted("");
+    setRatingFilter("");
+    setCategoryFilter("");
+    setCurrentPage(1);
+  };
 
   return (
     <>
@@ -146,8 +183,11 @@ function Products() {
 
       <div className="px-6 py-10">
 
-        {/* Back Button */}
-        <div className="flex justify-between">
+        {/* =========================
+            BACK BUTTON
+        ========================== */}
+
+        <div className="flex justify-between mb-6">
           <Backbutton />
         </div>
 
@@ -159,7 +199,9 @@ function Products() {
 
           <div className="w-60 bg-white p-4 rounded-lg shadow space-y-6 h-fit mt-15">
 
-            {/* Sort */}
+            {/* =========================
+                SORT
+            ========================== */}
 
             <div>
               <h3 className="font-semibold mb-2">
@@ -169,19 +211,29 @@ function Products() {
               <div className="space-y-1 text-sm">
 
                 <p
-                  onClick={() =>
-                    setSorted("byPriceInc")
-                  }
-                  className="cursor-pointer hover:text-black text-gray-600"
+                  onClick={() => {
+                    setSorted("byPriceInc");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    sorted === "byPriceInc"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   Price: Low → High
                 </p>
 
                 <p
-                  onClick={() =>
-                    setSorted("byPriceDec")
-                  }
-                  className="cursor-pointer hover:text-black text-gray-600"
+                  onClick={() => {
+                    setSorted("byPriceDec");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    sorted === "byPriceDec"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   Price: High → Low
                 </p>
@@ -189,7 +241,9 @@ function Products() {
               </div>
             </div>
 
-            {/* Price */}
+            {/* =========================
+                PRICE
+            ========================== */}
 
             <div>
               <h3 className="font-semibold mb-2">
@@ -199,37 +253,57 @@ function Products() {
               <div className="space-y-1 text-sm">
 
                 <p
-                  onClick={() =>
-                    setPriceFilter("below999")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setPriceFilter("below999");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    pricefilter === "below999"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   Below ₹999
                 </p>
 
                 <p
-                  onClick={() =>
-                    setPriceFilter("below1499")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setPriceFilter("below1499");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    pricefilter === "below1499"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   Below ₹1499
                 </p>
 
                 <p
-                  onClick={() =>
-                    setPriceFilter("below1999")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setPriceFilter("below1999");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    pricefilter === "below1999"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   Below ₹1999
                 </p>
 
                 <p
-                  onClick={() =>
-                    setPriceFilter("above2000")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setPriceFilter("above2000");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    pricefilter === "above2000"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   Above ₹2000
                 </p>
@@ -237,7 +311,9 @@ function Products() {
               </div>
             </div>
 
-            {/* Rating */}
+            {/* =========================
+                RATING
+            ========================== */}
 
             <div>
               <h3 className="font-semibold mb-2">
@@ -247,19 +323,29 @@ function Products() {
               <div className="space-y-1 text-sm">
 
                 <p
-                  onClick={() =>
-                    setRatingFilter("4")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setRatingFilter("4");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    ratingFilter === "4"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   4★ & above
                 </p>
 
                 <p
-                  onClick={() =>
-                    setRatingFilter("3")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setRatingFilter("3");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    ratingFilter === "3"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   3★ & above
                 </p>
@@ -267,7 +353,9 @@ function Products() {
               </div>
             </div>
 
-            {/* Category */}
+            {/* =========================
+                CATEGORY
+            ========================== */}
 
             <div>
               <h3 className="font-semibold mb-2">
@@ -277,28 +365,43 @@ function Products() {
               <div className="space-y-1 text-sm">
 
                 <p
-                  onClick={() =>
-                    setCategoryFilter("Pants")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setCategoryFilter("Pant");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    categoryFilter === "Pants"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   Pants
                 </p>
 
                 <p
-                  onClick={() =>
-                    setCategoryFilter("Shirts")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setCategoryFilter("Shirt");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    categoryFilter === "Shirts"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   Shirts
                 </p>
 
                 <p
-                  onClick={() =>
-                    setCategoryFilter("T-Shirts")
-                  }
-                  className="cursor-pointer text-gray-600 hover:text-black"
+                  onClick={() => {
+                    setCategoryFilter("T-Shirts");
+                    setCurrentPage(1);
+                  }}
+                  className={`cursor-pointer hover:text-black ${
+                    categoryFilter === "T-Shirts"
+                      ? "text-black font-medium"
+                      : "text-gray-600"
+                  }`}
                 >
                   T-Shirts
                 </p>
@@ -306,23 +409,44 @@ function Products() {
               </div>
             </div>
 
+            {/* =========================
+                CLEAR FILTERS
+            ========================== */}
+
+            <button
+              onClick={clearFilters}
+              className="w-full border border-black py-2 rounded text-sm hover:bg-black hover:text-white transition"
+            >
+              Clear Filters
+            </button>
+
           </div>
 
           {/* =========================
-              PRODUCTS
+              PRODUCTS SECTION
           ========================== */}
 
           <div className="flex-1">
 
+            {/* Heading */}
+
             <h1 className="text-3xl mb-6">
-              {category === "all"
-                ? "All Products"
-                : category}
+
+              {category
+                ? category
+                : searchQuery
+                ? `Search results for "${searchQuery}"`
+                : "All Products"}
+
             </h1>
 
-            {finalProducts.length === 0 ? (
+            {/* =========================
+                PRODUCT LIST
+            ========================== */}
 
-              <p className="text-gray-500 text-center">
+            {products.length === 0 ? (
+
+              <p className="text-gray-500 text-center mt-10">
                 No products found
               </p>
 
@@ -330,11 +454,13 @@ function Products() {
 
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
 
-                {finalProducts.map((item) => (
+                {products.map((item) => (
+
                   <ProductCard
                     key={item.id}
                     item={item}
                   />
+
                 ))}
 
               </div>
@@ -345,68 +471,74 @@ function Products() {
                 PAGINATION
             ========================== */}
 
-            <div className="flex justify-center items-center gap-3 mt-10">
+            {totalPages > 0 && (
 
-              {/* Previous */}
+              <div className="flex justify-center items-center gap-3 mt-10">
 
-              <button
-                disabled={currentPage === 1}
-                onClick={() =>
-                  setCurrentPage(
-                    currentPage - 1
-                  )
-                }
-                className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
-              >
-                Prev
-              </button>
+                {/* Previous */}
 
-              {/* Page Numbers */}
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() =>
+                    setCurrentPage(
+                      currentPage - 1
+                    )
+                  }
+                  className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
+                >
+                  Prev
+                </button>
 
-              {[...Array(totalPages)].map(
-                (_, index) => {
+                {/* Page Numbers */}
 
-                  const page = index + 1;
+                {[...Array(totalPages)].map(
+                  (_, index) => {
 
-                  return (
-                    <button
-                      key={page}
-                      onClick={() =>
-                        setCurrentPage(page)
-                      }
-                      className={`px-4 py-2 rounded ${
-                        currentPage === page
-                          ? "bg-black text-white"
-                          : "bg-gray-200"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  );
-                }
-              )}
+                    const page = index + 1;
 
-              {/* Next */}
+                    return (
+                      <button
+                        key={page}
+                        onClick={() =>
+                          setCurrentPage(page)
+                        }
+                        className={`px-4 py-2 rounded ${
+                          currentPage === page
+                            ? "bg-black text-white"
+                            : "bg-gray-200"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    );
 
-              <button
-                disabled={
-                  currentPage === totalPages
-                }
-                onClick={() =>
-                  setCurrentPage(
-                    currentPage + 1
-                  )
-                }
-                className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
-              >
-                Next
-              </button>
+                  }
+                )}
 
-            </div>
+                {/* Next */}
+
+                <button
+                  disabled={
+                    currentPage === totalPages
+                  }
+                  onClick={() =>
+                    setCurrentPage(
+                      currentPage + 1
+                    )
+                  }
+                  className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
+                >
+                  Next
+                </button>
+
+              </div>
+
+            )}
 
           </div>
 
         </div>
+
       </div>
 
       <Footer />
