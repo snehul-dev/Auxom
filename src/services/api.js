@@ -9,7 +9,6 @@ const refreshAPI = axios.create({
 });
 
 
-// Add access token to every normal request
 API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -26,7 +25,6 @@ API.interceptors.request.use(
 );
 
 
-// Handle expired access token
 API.interceptors.response.use(
   (response) => {
     return response;
@@ -51,7 +49,6 @@ API.interceptors.response.use(
           return Promise.reject(error);
         }
 
-        // Call refresh endpoint
         const response = await refreshAPI.post(
           "/auth/refresh",
           {
@@ -59,16 +56,16 @@ API.interceptors.response.use(
           }
         );
 
-        const newAccessToken = response.data.accessToken;
+        const newAccessToken = response.data.token;
+        const newRefreshToken = response.data.refreshToken;
 
-        // Save new access token
         localStorage.setItem("token", newAccessToken);
+        localStorage.setItem("refreshToken", newRefreshToken);
 
-        // Add new token to original request
         originalRequest.headers.Authorization =
           `Bearer ${newAccessToken}`;
 
-        // Retry original request
+
         return API(originalRequest);
 
       } catch (refreshError) {

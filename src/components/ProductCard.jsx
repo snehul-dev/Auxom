@@ -5,6 +5,7 @@ import { setCart } from "../redux/slices/cartSlice";
 import { toggleWishlist } from "../redux/slices/whishlistSlice"
 import { addToCartAPI, updateCartItem } from "../services/cartService";
 import { addToWishlistAPI, removeFromWishlist } from "../services/wishlistService";
+import toast from "react-hot-toast";
 
 
 
@@ -48,6 +49,7 @@ function ProductCard({ item }) {
       };
 
       const savedCart = await addToCartAPI(cartItem);
+      toast("Added to cart")
 
       dispatch(setCart(savedCart));
 
